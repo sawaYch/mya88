@@ -1,0 +1,43 @@
+{
+  "name": "mya88",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@nextui-org/react": "^2.1.12",
+    "@react-hooks-library/core": "^0.5.1",
+    "@types/node": "20.6.0",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "agent-base": "^7.1.0",
+    "autoprefixer": "10.4.15",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.9",
+    "eslint": "8.49.0",
+    "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.16.4",
+    "lodash": "^4.17.21",
+    "next": "13.4.19",
+    "node-fetch": "^3.3.2",
+    "postcss": "8.4.29",
+    "puppeteer": "^21.3.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "react": "18.2.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.11.0",
+    "react-virtualized": "^9.22.5",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@types/react-virtualized": "^9.21.22"
+  }
+}
