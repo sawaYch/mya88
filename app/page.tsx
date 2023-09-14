@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import {
   Table,
   TableHeader,
@@ -7,178 +6,230 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
   Input,
   Button,
   Selection,
+  Spinner,
+  useDisclosure,
 } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Key, useCallback, useMemo, useState } from "react";
-import pack from "../package.json";
-
-const rows = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "CEO",
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "Technical Lead",
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "Senior Developer",
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "Community Manager",
-  },
-  {
-    key: "5",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message:
-      "I am going to do it. I have made up my mind. These are the first few words of the new… the best … the Longest Text In The Entire History Of The Known Universe! This Has To Have Over 35,000 words the beat the current world record set by that person who made that flaming chicken handbooky thingy. I might just be saying random things the whole time I type in this so you might get confused a lot. I just discovered something terrible. autocorrect is on!! no!!! this has to be crazy, so I will have to break all the English language rules and the basic knowledge of the average human being. I am not an average human being, however I am special. no no no, not THAT kind of special ;). Why do people send that wink face! it always gives me nightmares! it can make a completely normal sentence creepy. imagine you are going to a friend’s house, so you text this: [ see you soon 🙂 ] seems normal, right? But what is you add the word semi to that colon? (Is that right? or is it the other way around) what is you add a lorry to that briquettes? (Semi-truck to that coal-on) anyway, back to the point: [ see you soon 😉 ]THAT IS JUST SO CREEPY! is that really your friend, or is it a creepy stalker watching your every move? Or even worse, is it your friend who is a creepy stalker? maybe you thought it was your friend, but it was actually your fri end (let me explain: you are happily in McDonalds, getting fat while eating yummy food and some random dude walks up and blots out the sun (he looks like a regular here) you can’t see anything else than him, so you can’t try to avoid eye contact. he finishes eating his cheeseburger (more like horseburgher(I learned that word from the merchant of Venice(which is a good play(if you can understand it(I can cause I got a special book with all the words in readable English written on the side of the page(which is kinda funny because Shakespeare was supposed to be a good poet but no-one can understand him(and he’s racist in act 2 scene1 of the play too))))))) and sits down beside you , like you are old pals (you’ve never met him before but he looks like he could be in some weird cult) he clears his throat and asks you a very personal question. “can i have some French fries?” (I don’t know why there called French fries when I’ve never seen a French person eat fries! all they eat it is stuff like baguettes and crêpes and rats named ratty-two-ee which is a really fun game on the PlayStation 2) And you think {bubbly cloud thinking bubble} “Hahahahahhahahahahahahahaha!!!!!!!!!!!!",
-  },
-  {
-    key: "6",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "88米88貓",
-  },
-  {
-    key: "7",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "88米88貓",
-  },
-  {
-    key: "8",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "88米88貓",
-  },
-  {
-    key: "9",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "88米88貓",
-  },
-  {
-    key: "10",
-    name: "Long long long long long long name test",
-    pic: "https://yt4.ggpht.com/ytc/AOPolaRyc4u5TCsT76h1lNuQYPbJOzEK9OTdrhguwB6d=s32-c-k-c0x00ffffff-no-rj",
-    message: "88米88貓",
-  },
-];
-
-const columns = [
-  {
-    key: "name",
-    label: "NAME",
-    width: 200,
-  },
-  {
-    key: "message",
-    label: "MESSAGE",
-  },
-];
+import { Key, useCallback, useEffect, useRef, useState } from "react";
+import cn from "classnames";
+import { useLiveChat } from "./hooks";
+import {
+  AuthorSection,
+  MetadataSection,
+  tableCellRenderer,
+  CustomTableHeader,
+  ConfirmModal,
+} from "./components";
+import { tableColumns, defaultBaseInterval, mockData } from "./utils";
+import type { MessageData, LiveMetadata } from "./types";
+import dayjs from "dayjs";
+import { uniqBy } from "lodash";
 
 export default function Home() {
-  const [liveUrl, setLiveUrl] = useState<string | undefined>();
   const [urlInputValue, setUrlInputValue] = useState("");
   const [readByeBye, setReadByeBye] = useState<Set<Key>>(new Set([]));
+  const [liveUrlError, setLiveUrlError] = useState<string | undefined>();
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const readyRef = useRef(isReady);
+  readyRef.current = isReady;
+  const readByeByeRef = useRef(readByeBye);
+  readByeByeRef.current = readByeBye;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeChatMessageId, setActiveChatMessageId] = useState<
+    string | undefined
+  >();
+  const [data, setData] = useState<MessageData[]>([]);
+  const [liveMetadata, setLiveMetadata] = useState<LiveMetadata | undefined>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [checkedUsers, setCheckedUsers] = useState<Set<string>>(new Set([]));
+  const checkedUsersRef = useRef(checkedUsers);
+  checkedUsersRef.current = checkedUsers;
+  const updateIndicatorRef = useRef<HTMLSpanElement>(null);
+  const [channelId, setChannelId] = useState<string | undefined>();
 
-  const isReady = useMemo(() => {
-    return liveUrl != null && liveUrl.length > 0;
-  }, [liveUrl]);
+  const { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage } =
+    useLiveChat();
 
-  const handleUrlChange = useCallback(() => {
+  const intervalLiveChatMessage = useCallback(
+    async (chatId: string, nextToken?: string) => {
+      if (!readyRef.current) {
+        Promise.resolve();
+        return;
+      }
+      const d = await fetchLiveChatMessage(chatId, nextToken);
+      if (d == null) return;
+
+      const pollingMs = d.pollingIntervalMillis + defaultBaseInterval;
+      const nextPageToken = d.nextPageToken;
+      const newData: MessageData[] = d.items.map((it: any) => ({
+        key: it.id,
+        name: it.authorDetails.displayName,
+        pic: it.authorDetails.profileImageUrl,
+        message: extractMessage(it),
+        type: it.snippet.type,
+        time: dayjs(it.snippet.publishedAt).format("HH:mm:ss"),
+        isOwner: it.authorDetails.channelId === channelId,
+      }));
+      setData((prev) => uniqBy([...prev, ...newData], (obj) => obj.key));
+
+      // auto tick marked user
+      const newDataKeysShouldMark = newData
+        .filter((it) => checkedUsersRef.current.has(it.name))
+        .map((it) => it.key);
+
+      const newReadByeBye = new Set([
+        ...Array.from(readByeByeRef.current),
+        ...newDataKeysShouldMark,
+      ]);
+      setReadByeBye(newReadByeBye);
+
+      setTimeout(async () => {
+        await intervalLiveChatMessage(chatId, nextPageToken);
+      }, pollingMs);
+    },
+    [channelId, extractMessage, fetchLiveChatMessage]
+  );
+
+  useEffect(() => {
+    if (!isReady || activeChatMessageId == null) return;
+    (async () => {
+      await intervalLiveChatMessage(activeChatMessageId);
+    })();
+  }, [
+    activeChatMessageId,
+    extractMessage,
+    fetchLiveChatMessage,
+    intervalLiveChatMessage,
+    isReady,
+  ]);
+
+  useEffect(() => {
+    if (!isReady || updateIndicatorRef?.current == null) return;
+    updateIndicatorRef.current.classList.remove("invisible");
+
+    setTimeout(() => {
+      if (updateIndicatorRef?.current != null) {
+        updateIndicatorRef.current.classList.add("invisible");
+      }
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  const handleUrlChange = useCallback(async () => {
+    // start / stop
     if (isReady) {
-      setLiveUrl(undefined);
+      onOpen();
     } else {
-      setLiveUrl(urlInputValue);
+      setLiveUrlError(undefined);
+      setIsLoading(true);
+      // check live url vid
+      const vid = urlInputValue?.split("watch?v=")?.[1];
+      if (vid == null || vid.length === 0) {
+        setLiveUrlError("Invalid youtube live url format");
+        setIsLoading(false);
+        return;
+      }
+
+      // check vid is correct
+      const result = await fetchLiveStreamingDetails(vid);
+      if (!result.success) {
+        setIsLoading(false);
+        setLiveUrlError(result.message);
+        return;
+      }
+
+      setActiveChatMessageId(result.activeLiveChatId);
+      setChannelId(result.channelId);
+      setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
+
+      // all green, reset any error flag
+      setIsReady(true);
+      setData([]);
+      setCheckedUsers(new Set([]));
+      setReadByeBye(new Set([]));
+      setIsLoading(false);
     }
-  }, [urlInputValue, isReady]);
-  const appVersion = useMemo(() => {
-    return pack.version;
-  }, []);
+  }, [fetchLiveStreamingDetails, isReady, onOpen, urlInputValue]);
 
   const handleReadByeBye = useCallback(
     (keys: Selection) => {
       if (keys == "all") return;
       // not allow to un-tick
       if (keys.size < readByeBye.size) return;
-      setReadByeBye(keys);
+
+      // find user messageData of the newly selected key
+      const selectedKeyUsername = data
+        .filter((it) => Array.from(keys).includes(it.key))
+        .map((it) => it.name);
+
+      // keys should be mark as read
+      const keysShouldBeSelected = data
+        .filter((it) => selectedKeyUsername.includes(it.name))
+        .map((it) => it.key);
+
+      // record bye-bye-ed user & checked user
+      setCheckedUsers(new Set(selectedKeyUsername));
+      setReadByeBye(new Set(keysShouldBeSelected));
     },
-    [readByeBye]
+    [data, readByeBye]
   );
+
+  const handleStopProcess = useCallback(() => {
+    setIsReady(false);
+    onClose();
+  }, [onClose]);
 
   return (
     <main className="flex flex-col min-h-screen items-center px-10 font-mono">
-      <div className="flex self-end mt-2 relative">
-        <div className="flex flex-col items-center justify-center text-xs">
-          さようなら Mya {appVersion ?? "unknown version"}
-          <div>Created By No.159</div>
-          <div>Sawa</div>
-        </div>
-        <a
-          className="flex place-items-center p-2"
-          href="https://github.com/sawaYch"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            className="rounded-full"
-            src="/author.jpg"
-            alt="author"
-            width={32}
-            height={32}
-            priority
-          />
-        </a>
-      </div>
+      <AuthorSection />
       <motion.div
-        className="justify-center flex flex-col w-full grow gap-4"
+        className={cn("flex flex-col w-full grow", {
+          "justify-center": !isReady,
+          "justify-start mt-2": isReady,
+        })}
         layout
       >
         <AnimatePresence>
           <motion.div
             key="url-input-bar"
             layout
-            className="flex justify-center items-center gap-2 "
+            className="flex justify-center items-start gap-2 "
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Input
-              type="url"
-              isClearable={!isReady}
-              label="Enter Youtube Live Url"
-              placeholder="for example: https://www.youtube.com/watch?v=7LA9mAOz7gA"
-              radius="lg"
-              value={urlInputValue}
-              onValueChange={setUrlInputValue}
-              disabled={isReady}
-              autoComplete="off"
-              color={isReady ? "success" : "default"}
-            />
+            <div className="flex flex-col w-full grow">
+              <Input
+                type="url"
+                isClearable={!isReady}
+                label="Enter Youtube Live Url"
+                placeholder="for example: https://www.youtube.com/watch?v=7LA9mAOz7gA"
+                radius="lg"
+                value={urlInputValue}
+                onValueChange={setUrlInputValue}
+                disabled={isReady}
+                autoComplete="off"
+                color={isReady ? "success" : "default"}
+              />
+              <div className="text-danger">
+                {liveUrlError ?? (isReady && "✅")}
+              </div>
+            </div>
             <Button
               isIconOnly
               aria-label="go"
               color={isReady ? "danger" : "secondary"}
-              className="text-white h-14 w-14 rounded-full"
+              className="text-white h-14 w-14 rounded-full mb-4"
               onClick={handleUrlChange}
             >
-              <div className="text-4xl">🐼</div>
+              {isLoading ? (
+                <Spinner color="default" />
+              ) : (
+                <div className="text-4xl">🐼</div>
+              )}
             </Button>
           </motion.div>
           {isReady && (
@@ -188,12 +239,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="h-[65vh]"
+              className="h-[70vh]"
             >
-              <div className="flex gap-2 pl-[4.5rem] items-center bg-[#18181b] rounded-tl-lg rounded-tr-lg py-2 relative">
-                <div className="text-center w-[200px]">NAME</div>
-                <div className="text-center w-full">MESSAGE</div>
-              </div>
+              <MetadataSection
+                title={liveMetadata?.title}
+                thumbnail={liveMetadata?.thumbnail}
+              />
+              <CustomTableHeader />
               <Table
                 aria-label="yt-chat-message-table"
                 selectedKeys={readByeBye}
@@ -205,30 +257,52 @@ export default function Home() {
                   table: "min-h-[25rem] -mt-12",
                   thead: "invisible",
                   wrapper: "rounded-br-none rounded-tr-none rounded-tl-none",
+                  td: "break-all select-none",
                 }}
                 isHeaderSticky
+                shadow="none"
               >
-                <TableHeader aria-label="header" columns={columns}>
+                <TableHeader aria-label="header" columns={tableColumns}>
                   {(column) => (
-                    <TableColumn aria-label="column" key={column.key} width={column.width}>
+                    <TableColumn
+                      aria-label="column"
+                      key={column.key}
+                      width={column.width}
+                    >
                       {column.label}
                     </TableColumn>
                   )}
                 </TableHeader>
-                <TableBody items={rows}>
+                <TableBody items={data}>
                   {(item) => (
                     <TableRow aria-label="row" key={item.key}>
                       {(columnKey) => (
-                        <TableCell aria-label="cell">{getKeyValue(item, columnKey)}</TableCell>
+                        <TableCell aria-label="cell">
+                          {tableCellRenderer(item, columnKey)}
+                        </TableCell>
                       )}
                     </TableRow>
                   )}
                 </TableBody>
               </Table>
+              <div className="flex  justify-end mt-2">
+                <span className="relative flex h-3 w-3 justify-center items-center">
+                  <span
+                    ref={updateIndicatorRef}
+                    className="animate-ping invisible absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"
+                  ></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                </span>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.div>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={onClose}
+        handleStopProcess={handleStopProcess}
+      />
     </main>
   );
 }

@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <div className="fixed top-0 left-0 w-screen h-screen">
         <Image
-          className="opacity-20 object-contain object-center"
+          className="opacity-20 object-cover object-center pointer-events-none select-none"
           src="/bg.jpg"
           alt="bg"
           fill
