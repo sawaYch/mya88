@@ -11,6 +11,8 @@ import {
   Selection,
   Spinner,
   useDisclosure,
+  CheckboxGroup,
+  Checkbox,
 } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Key, useCallback, useEffect, useRef, useState } from "react";
@@ -51,6 +53,8 @@ export default function Home() {
   checkedUsersRef.current = checkedUsers;
   const updateIndicatorRef = useRef<HTMLSpanElement>(null);
   const [isAuth, setIsAuth] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
+  const [filteredData, setFilterData] = useState<MessageData[]>([]);
 
   const { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage } =
     useLiveChat();
@@ -62,7 +66,11 @@ export default function Home() {
         return;
       }
       const d = await fetchLiveChatMessage(chatId, nextToken);
-      if (d == null) return;
+      if (!d.success) {
+        setIsLoading(false);
+        setLiveUrlError(d.message);
+        return;
+      }
 
       const pollingMs = d.pollingIntervalMillis + defaultBaseInterval;
       const nextPageToken = d.nextPageToken;
@@ -72,12 +80,20 @@ export default function Home() {
         pic: it.authorDetails.profileImageUrl,
         message: extractMessage(it),
         type: it.snippet.type,
-        time: dayjs(it.snippet.publishedAt).format("HH:mm:ss"),
+        time: it.snippet.publishedAt,
         isChatOwner: it.authorDetails.isChatOwner,
         isChatSponsor: it.authorDetails.isChatSponsor,
         isChatModerator: it.authorDetails.isChatModerator,
       }));
-      setData((prev) => uniqBy([...prev, ...newData], (obj) => obj.key));
+      setData((prev) =>
+        uniqBy([...prev, ...newData], (obj) => obj.key).sort((a, b) => {
+          return dayjs(b.time).isBefore(dayjs(a.time))
+            ? 1
+            : dayjs(b.time).isSame(dayjs(a.time))
+            ? 0
+            : -1;
+        }),
+      );
 
       // auto tick marked user
       const newDataKeysShouldMark = newData
@@ -151,6 +167,8 @@ export default function Home() {
       // all green, reset any error flag
       setIsReady(true);
       setData([]);
+      setFilterData([]);
+      setSelectedFilter([]);
       setCheckedUsers(new Set([]));
       setReadByeBye(new Set([]));
       setIsLoading(false);
@@ -213,6 +231,29 @@ export default function Home() {
     }
   }, []);
 
+  const handleOnFilterChanged = useCallback(
+    (f: string[]) => {
+      setSelectedFilter(f);
+      if (f.length === 0) {
+        return;
+      }
+      const newData = data
+        .filter((d) => {
+          if (f.includes(d.type)) return true;
+          return false;
+        })
+        .sort((a, b) => {
+          return dayjs(b.time).isBefore(dayjs(a.time))
+            ? 1
+            : dayjs(b.time).isSame(dayjs(a.time))
+            ? 0
+            : -1;
+        });
+      setFilterData(newData);
+    },
+    [data],
+  );
+
   return (
     <main className="flex flex-col min-h-screen items-center px-10 font-mono">
       <AuthorSection />
@@ -274,8 +315,26 @@ export default function Home() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="h-[70vh]"
+                  className="h-[64vh]"
                 >
+                  <CheckboxGroup
+                    label="Filters"
+                    orientation="horizontal"
+                    color="secondary"
+                    value={selectedFilter}
+                    onValueChange={handleOnFilterChanged}
+                    size="sm"
+                    radius="full"
+                    classNames={{
+                      label: "text-xs",
+                    }}
+                    className="mt-2"
+                  >
+                    <Checkbox value="superChatEvent">Superchat</Checkbox>
+                    <Checkbox value="membershipGiftingEvent">
+                      Membership Gift
+                    </Checkbox>
+                  </CheckboxGroup>
                   <MetadataSection
                     title={liveMetadata?.title}
                     thumbnail={liveMetadata?.thumbnail}
@@ -287,10 +346,9 @@ export default function Home() {
                     onSelectionChange={handleReadByeBye}
                     selectionMode="multiple"
                     color="success"
-                    disableAnimation
                     classNames={{
                       base: "max-h-[100%] overflow-hidden",
-                      table: "min-h-[25rem] -mt-12",
+                      table: "min-h-[64vh] -mt-12",
                       thead: "invisible",
                       wrapper:
                         "rounded-br-none rounded-tr-none rounded-tl-none",
@@ -310,7 +368,9 @@ export default function Home() {
                         </TableColumn>
                       )}
                     </TableHeader>
-                    <TableBody items={data}>
+                    <TableBody
+                      items={selectedFilter.length > 0 ? filteredData : data}
+                    >
                       {(item) => (
                         <TableRow aria-label="row" key={item.key}>
                           {(columnKey) => (

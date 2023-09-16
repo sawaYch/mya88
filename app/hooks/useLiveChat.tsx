@@ -14,9 +14,8 @@ export const useLiveChat = () => {
     async (liveChatId: string, nextToken?: string) => {
       try {
         const data = await fetchLiveChat(liveChatId, nextToken);
-        console.log("data", data);
         if (data.ok) {
-          return data;
+          return { success: true, ...data };
         } else {
           throw data;
         }
@@ -43,7 +42,6 @@ export const useLiveChat = () => {
         const thumbnail = data.items[0].snippet?.thumbnails?.default?.url;
         const channelId = data.items[0].snippet?.channelId;
         if (activeLiveChatId == null) {
-          console.error("Url source is not an active live");
           return {
             success: false,
             message: "Url source is not a active live",

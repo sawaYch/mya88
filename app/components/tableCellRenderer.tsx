@@ -2,6 +2,7 @@ import { Key, PropsWithChildren } from "react";
 import { Avatar, Badge } from "@nextui-org/react";
 import cn from "classnames";
 import { MessageData } from "../../types";
+import dayjs from "dayjs";
 
 interface userRoleBadgeProps {
   isChatModerator: boolean;
@@ -59,7 +60,7 @@ export const tableCellRenderer = (user: MessageData, columnKey: Key) => {
       : user.type === "giftMembershipReceivedEvent"
       ? "📦"
       : user.type === "newSponsorEvent"
-      ? "🆙"
+      ? "🎉"
       : undefined;
   const color =
     user.type === "membershipGiftingEvent" || user.type === "newSponsorEvent"
@@ -144,6 +145,8 @@ export const tableCellRenderer = (user: MessageData, columnKey: Key) => {
           </div>
         </div>
       );
+    case "time":
+      return <div>{dayjs(user.time).format("HH:mm:ss")}</div>;
     default:
       return (user as unknown as { [key: string]: string })[columnKey];
   }
