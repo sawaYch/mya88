@@ -50,7 +50,6 @@ export default function Home() {
   const checkedUsersRef = useRef(checkedUsers);
   checkedUsersRef.current = checkedUsers;
   const updateIndicatorRef = useRef<HTMLSpanElement>(null);
-  const [channelId, setChannelId] = useState<string | undefined>();
   const [isAuth, setIsAuth] = useState(false);
 
   const { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage } =
@@ -74,7 +73,9 @@ export default function Home() {
         message: extractMessage(it),
         type: it.snippet.type,
         time: dayjs(it.snippet.publishedAt).format("HH:mm:ss"),
-        isOwner: it.authorDetails.channelId === channelId,
+        isChatOwner: it.authorDetails.isChatOwner,
+        isChatSponsor: it.authorDetails.isChatSponsor,
+        isChatModerator: it.authorDetails.isChatModerator,
       }));
       setData((prev) => uniqBy([...prev, ...newData], (obj) => obj.key));
 
@@ -93,7 +94,7 @@ export default function Home() {
         await intervalLiveChatMessage(chatId, nextPageToken);
       }, pollingMs);
     },
-    [channelId, extractMessage, fetchLiveChatMessage],
+    [extractMessage, fetchLiveChatMessage],
   );
 
   useEffect(() => {
@@ -145,7 +146,6 @@ export default function Home() {
       }
 
       setActiveChatMessageId(result.activeLiveChatId);
-      setChannelId(result.channelId);
       setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
 
       // all green, reset any error flag

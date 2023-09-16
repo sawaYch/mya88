@@ -14,6 +14,7 @@ export const useLiveChat = () => {
     async (liveChatId: string, nextToken?: string) => {
       try {
         const data = await fetchLiveChat(liveChatId, nextToken);
+        console.log("data", data);
         if (data.ok) {
           return data;
         } else {
@@ -70,17 +71,9 @@ export const useLiveChat = () => {
         displayMessage: string;
       };
     }) => {
-      const snippetType = messageObject.snippet.type;
-
-      if (snippetType === "superChatEvent") {
-        return messageObject.snippet.hasDisplayContent
-          ? messageObject.snippet?.displayMessage
-          : "No superchat message";
-      } else if (snippetType === "textMessageEvent") {
-        return messageObject.snippet.displayMessage;
-      } else if (snippetType === "membershipGiftingEvent") {
-        return messageObject.snippet.displayMessage;
-      }
+      return messageObject.snippet.hasDisplayContent
+        ? messageObject.snippet?.displayMessage
+        : "No superchat message";
     },
     [],
   );
