@@ -1,4 +1,4 @@
-import { Card, Input, Image, Button } from "@nextui-org/react";
+import { Card, Input, Image, Button, Spinner } from "@nextui-org/react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { EyeFilledIcon, EyeSlashFilledIcon } from ".";
@@ -11,6 +11,7 @@ export const AuthForm = ({ onSubmit }: AuthFormProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [passphrase, setPassphrase] = useState<string>("");
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="flex h-[70vh] justify-center items-center">
@@ -58,16 +59,25 @@ export const AuthForm = ({ onSubmit }: AuthFormProps) => {
               aria-label="passphrase"
               radius="full"
               className="bg-pink-500/80"
-              onClick={() => onSubmit(passphrase)}
+              onClick={async () => {
+                setIsLoading(true);
+                await onSubmit(passphrase);
+                setIsLoading(false);
+              }}
+              disabled={isLoading}
             >
-              <Image
-                src={"/key.svg"}
-                alt="key-icon"
-                radius="full"
-                height={28}
-                width={28}
-                className="object-cover object-center pointer-events-none select-none"
-              />
+              {isLoading ? (
+                <Spinner color="default" size="sm" />
+              ) : (
+                <Image
+                  src={"/key.svg"}
+                  alt="key-icon"
+                  radius="full"
+                  height={28}
+                  width={28}
+                  className="object-cover object-center pointer-events-none select-none"
+                />
+              )}
             </Button>
           </div>
         </Card>
