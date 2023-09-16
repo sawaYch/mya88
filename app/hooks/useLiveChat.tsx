@@ -14,7 +14,7 @@ export const useLiveChat = () => {
         const res = await fetch(
           `https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${liveChatId}&part=snippet,authorDetails&maxResults=2000&${
             nextToken ? `pageToken=${nextToken}&` : ""
-          }key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`
+          }key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`,
         );
         const data = await res.json();
         return data;
@@ -28,13 +28,13 @@ export const useLiveChat = () => {
         };
       }
     },
-    []
+    [],
   );
 
   const fetchLiveStreamingDetails = useCallback(async (vid: string) => {
     try {
       const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${vid}&key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`
+        `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${vid}&key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`,
       );
       if (res.ok) {
         const data = await res.json();
@@ -85,7 +85,7 @@ export const useLiveChat = () => {
         return messageObject.snippet.displayMessage;
       }
     },
-    []
+    [],
   );
 
   return { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage };

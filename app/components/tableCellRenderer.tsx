@@ -1,5 +1,5 @@
 import { Key } from "react";
-import { MessageData } from "../types";
+import { MessageData } from "../../types";
 import { Avatar, Badge } from "@nextui-org/react";
 
 export const tableCellRenderer = (user: MessageData, columnKey: Key) => {
