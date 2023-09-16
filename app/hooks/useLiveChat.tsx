@@ -20,7 +20,6 @@ export const useLiveChat = () => {
           throw data;
         }
       } catch (err) {
-        console.log("liveChat error", err);
         return {
           success: false,
           message: `Fail to get chat message: ${(
@@ -35,7 +34,6 @@ export const useLiveChat = () => {
   const fetchLiveStreamingDetails = useCallback(async (vid: string) => {
     try {
       const data = await fetchLiveStreamDetails(vid);
-      console.log("stream details", data);
       if (data.ok) {
         // const data = await res.json();
         const activeLiveChatId =
@@ -55,8 +53,6 @@ export const useLiveChat = () => {
         throw data;
       }
     } catch (err) {
-      // const errorJson = await (err as Response);
-      console.log("stream details error", err);
       return {
         success: false,
         message: `Fail to get stream information: ${(
