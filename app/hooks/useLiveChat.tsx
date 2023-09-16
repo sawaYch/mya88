@@ -1,4 +1,6 @@
 import { useCallback } from "react";
+import { fetchLiveChat } from "./fetchLiveChat";
+import { fetchLiveStreamDetails } from "./fetchLiveStreamDetails";
 
 interface APIError {
   error: {
@@ -11,19 +13,18 @@ export const useLiveChat = () => {
   const fetchLiveChatMessage = useCallback(
     async (liveChatId: string, nextToken?: string) => {
       try {
-        const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${liveChatId}&part=snippet,authorDetails&maxResults=2000&${
-            nextToken ? `pageToken=${nextToken}&` : ""
-          }key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`,
-        );
-        const data = await res.json();
-        return data;
+        const data = await fetchLiveChat(liveChatId, nextToken);
+        if (data.ok) {
+          return data;
+        } else {
+          throw data;
+        }
       } catch (err) {
-        const errorJson = await (err as Response).json();
+        console.log("liveChat error", err);
         return {
           success: false,
           message: `Fail to get chat message: ${(
-            errorJson as APIError
+            err as APIError
           ).error.message.replace(/(<([^>]+)>)/gi, "")}`,
         };
       }
@@ -33,11 +34,10 @@ export const useLiveChat = () => {
 
   const fetchLiveStreamingDetails = useCallback(async (vid: string) => {
     try {
-      const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${vid}&key=${process.env.NEXT_PUBLIC_YT_DATA_API_TOKEN}`,
-      );
-      if (res.ok) {
-        const data = await res.json();
+      const data = await fetchLiveStreamDetails(vid);
+      console.log("stream details", data);
+      if (data.ok) {
+        // const data = await res.json();
         const activeLiveChatId =
           data.items[0].liveStreamingDetails?.activeLiveChatId;
         const title = data.items[0].snippet?.title;
@@ -52,14 +52,15 @@ export const useLiveChat = () => {
         }
         return { success: true, activeLiveChatId, title, thumbnail, channelId };
       } else {
-        throw res;
+        throw data;
       }
     } catch (err) {
-      const errorJson = await (err as Response).json();
+      // const errorJson = await (err as Response);
+      console.log("stream details error", err);
       return {
         success: false,
         message: `Fail to get stream information: ${(
-          errorJson as APIError
+          err as APIError
         ).error.message.replace(/(<([^>]+)>)/gi, "")}`,
       };
     }

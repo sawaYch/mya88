@@ -287,6 +287,7 @@ export default function Home() {
                     onSelectionChange={handleReadByeBye}
                     selectionMode="multiple"
                     color="success"
+                    disableAnimation
                     classNames={{
                       base: "max-h-[100%] overflow-hidden",
                       table: "min-h-[25rem] -mt-12",
