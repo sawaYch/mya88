@@ -5,6 +5,9 @@ export const fetchLiveStreamDetails = async (vid: string) => {
   );
 
   const data = await res.json();
+  if (data.items.length === 0) {
+    return { ok: false, error: { message: "Video Unavailable" } };
+  }
   if (res.ok) {
     return { ok: true, ...data };
   }

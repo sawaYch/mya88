@@ -35,7 +35,6 @@ export const useLiveChat = () => {
     try {
       const data = await fetchLiveStreamDetails(vid);
       if (data.ok) {
-        // const data = await res.json();
         const activeLiveChatId =
           data.items[0].liveStreamingDetails?.activeLiveChatId;
         const title = data.items[0].snippet?.title;

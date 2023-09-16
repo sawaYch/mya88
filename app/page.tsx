@@ -20,6 +20,7 @@ import cn from "classnames";
 import dayjs from "dayjs";
 import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
+import { useAsyncList } from "@react-stately/data";
 import { useLiveChat } from "./hooks";
 import {
   AuthorSection,
@@ -254,6 +255,21 @@ export default function Home() {
     [data],
   );
 
+  const [isTableLoading, setIsTableLoading] = useState(true);
+  let list = useAsyncList({
+    async load({ signal }) {
+      let res = await fetch("https://pokeapi.co/api/v2/pokemon", {
+        signal,
+      });
+      let json = await res.json();
+      setIsLoading(false);
+
+      return {
+        items: json.results,
+      };
+    },
+  });
+
   return (
     <main className="flex flex-col min-h-screen items-center px-10 font-mono">
       <AuthorSection />
@@ -370,6 +386,11 @@ export default function Home() {
                     </TableHeader>
                     <TableBody
                       items={selectedFilter.length > 0 ? filteredData : data}
+                      // should use useAsyncList
+                      // items={list.items}
+                      // isLoading={isTableLoading}
+                      // loadingState={list.loadingState}
+                      // loadingContent={<Spinner label="Loading..." />}
                     >
                       {(item) => (
                         <TableRow aria-label="row" key={item.key}>
