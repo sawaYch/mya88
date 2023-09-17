@@ -346,9 +346,9 @@ export default function Home() {
                     }}
                     className="mt-2"
                   >
-                    <Checkbox value="superChatEvent">Superchat</Checkbox>
+                    <Checkbox value="superChatEvent">Superchat💬</Checkbox>
                     <Checkbox value="membershipGiftingEvent">
-                      Membership Gift
+                      Membership Gift🎁
                     </Checkbox>
                   </CheckboxGroup>
                   <MetadataSection

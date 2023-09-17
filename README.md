@@ -1,8 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sayonara-mya
 
-## Getting Started
+![Alt text](./docs/preview.png)
 
-First, run the development server:
+## Problem Statement
+
+[HKVtuber MYA](https://www.youtube.com/@mya.) spends a lot of time saying 'bye bye' to the audience before the live stream ending because some members of the audience say it multiple times, or mixed with different unrelated message. As a result, MYA finds it difficult to differentiate 'bye bye' messages from distinct users. Can you help MYA write a program to solve this issue?
+
+## Usage
+
+This webapp is a youtube live chat viewer powered by NextJS.
+
+1. Input the passphrase to authenticate.
+2. Input the live stream URL, for example `https://www.youtube.com/watch?v=92VgDXjI4Xg`.
+3. List of youtube chat messages should show and update periodically.
+4. Mouse click on the list item, the user message will be marked as "Read" (Green color). The future incoming message of that user will also marked as "Read" automatically. So user just need to click the list item -> focus and read those un-ticked list item.
+
+### Notices
+
+🗝️ Secret Code Protection: only designated individuals can use this application.  
+✅ Filtering on chat message by superchat / member gift types.  
+👁️ Distinguish different author role and types of message.  
+✨ This webapp can **ONLY** retrieve the chat message published from **current moment**.  
+✨ This webapp consume Youtube Data API v3, which has daily quota limit (Don't worry, it's free).
+
+## Development
 
 ```bash
 npm run dev
@@ -13,19 +34,6 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 
