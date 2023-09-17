@@ -9,6 +9,13 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "さようなら Mya 🐼",
   description: "さようなら Mya 🐼",
+  icons: [
+    {
+      rel: "icon",
+      url: "/greeting.webp",
+      type: "image/webp",
+    },
+  ],
 };
 
 export default function RootLayout({
