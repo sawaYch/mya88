@@ -4012,6 +4012,7 @@ export const mockData: MessageData[] = [
     pic: "http://dummyimage.com/100x100.png/5fa2dd/ffffff",
     type: "newSponsorEvent",
     time: "2022-10-30T19:10:07Z",
+    message: "wtf",
     isChatOwner: false,
     isChatSponsor: true,
     isChatModerator: true,
