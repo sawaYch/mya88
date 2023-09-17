@@ -4,7 +4,7 @@
 
 ## Problem Statement
 
-[HKVtuber MYA](https://www.youtube.com/@mya.) say 'bye bye' to the audience and read audience name one by one before the live stream end (every live stream). Unfortunately chatroom may contains some 'bye bye' message that mixed with different unrelated message, which will cause MYA difficult to see and differentiate 'bye bye' messages from distinct users, and Can you help MYA write a program to solve this issue?
+[HKVtuber MYA](https://www.youtube.com/@mya.) say 'bye bye' to the audience and read audience name one by one before live stream end. Unfortunately chatroom contains some 'bye bye' message that mixed with unrelated message, which cause MYA difficult to see and differentiate 'bye bye' messages from distinct users. Can you help MYA write a program to solve this issue?
 
 ## Usage
 
