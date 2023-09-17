@@ -8,7 +8,7 @@ interface MetadataSectionProps {
 export const MetadataSection = ({ title, thumbnail }: MetadataSectionProps) => {
   return (
     <div className="flex justify-center items-center text-xs gap-2 mb-1 select-none">
-      <div>{title ?? "lofi hip hop radio 📚 - beats to relax/study to"}</div>
+      <div className="max-w-[12rem] sm:max-w-full">{title ?? "lofi hip hop radio 📚 - beats to relax/study to"}</div>
       <div>
         <Image
           src={
