@@ -25,7 +25,7 @@ This webapp is a youtube live chat viewer powered by NextJS.
 ✨ This webapp consume Youtube Data API v3, which has daily quota limit (Don't worry, it's free). If you try to open this webapp to record the message of live stream from the beginning, it may exhaust API quota, I would personally suggest not to doing this.  
 Here is the testing statistic:
 
-- 3 hours 14 minutes: 97.43% of 10000 quota, 1960 request, [live stream link](https://www.youtube.com/watch?v=X4JywMi7_Nw)
+- 3 hours 14 minutes: 99.48% of 10000 quota, 1992 request, [live stream link](https://www.youtube.com/watch?v=X4JywMi7_Nw)
 
 ## Development
 
