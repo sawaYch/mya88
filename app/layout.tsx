@@ -16,9 +16,13 @@ export const metadata: Metadata = {
   referrer: "origin",
   creator: "No.159 Sawa",
   publisher: "Vercel",
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#ff79c6" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#da2777" }],
   colorScheme: "dark",
-  viewport: "width=device-width, initial-scale=1",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
   robots: "index, follow",
   openGraph: {
     type: "website",
@@ -61,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <div className="fixed top-0 left-0 w-screen h-screen">
+        <div className="fixed top-0 left-0 w-screen h-screen overflow-hidden">
           <Image
             className="opacity-20 object-cover object-center pointer-events-none select-none"
             src="/bg.jpg"
