@@ -29,7 +29,7 @@ import {
   ConfirmModal,
   AuthForm,
 } from "./components";
-import { tableColumns, defaultBaseInterval } from "./utils";
+import { tableColumns, defaultBaseInterval, mockData } from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
 
 export default function Home() {
@@ -66,6 +66,7 @@ export default function Home() {
         return;
       }
       const d = await fetchLiveChatMessage(chatId, nextToken);
+      console.log("d", d);
       if (!d.success) {
         setIsLoading(false);
         setLiveUrlError(d.message);
@@ -154,15 +155,15 @@ export default function Home() {
       }
 
       // check vid is correct
-      const result = await fetchLiveStreamingDetails(vid);
-      if (!result.success) {
-        setIsLoading(false);
-        setLiveUrlError(result.message);
-        return;
-      }
+      // const result = await fetchLiveStreamingDetails(vid);
+      // if (!result.success) {
+      //   setIsLoading(false);
+      //   setLiveUrlError(result.message);
+      //   return;
+      // }
 
-      setActiveChatMessageId(result.activeLiveChatId);
-      setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
+      // setActiveChatMessageId(result.activeLiveChatId);
+      // setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
 
       // all green, reset any error flag
       setIsReady(true);
@@ -177,25 +178,29 @@ export default function Home() {
 
   const handleReadByeBye = useCallback(
     (keys: Selection) => {
+      let t0 = performance.now();
+
       if (keys == "all") return;
       // not allow to un-tick
       if (keys.size < readByeBye.size) return;
 
       // find user messageData of the newly selected key
-      const selectedKeyUsername = data
+      const selectedKeyUsername = mockData
         .filter((it) => Array.from(keys).includes(it.key))
         .map((it) => it.name);
 
       // keys should be mark as read
-      const keysShouldBeSelected = data
+      const keysShouldBeSelected = mockData
         .filter((it) => selectedKeyUsername.includes(it.name))
         .map((it) => it.key);
 
       // record bye-bye-ed user & checked user
       setCheckedUsers(new Set(selectedKeyUsername));
       setReadByeBye(new Set(keysShouldBeSelected));
+      let t1 = performance.now();
+      console.log("handleReadByeBye() took " + (t1 - t0) + " milliseconds.");
     },
-    [data, readByeBye],
+    [readByeBye],
   );
 
   const handleStopProcess = useCallback(() => {
@@ -231,32 +236,36 @@ export default function Home() {
     }
   }, []);
 
-  const handleOnFilterChanged = useCallback(
-    (f: string[]) => {
-      setSelectedFilter(f);
-      if (f.length === 0) {
-        return;
-      }
-      const newData = data
-        .filter((d) => {
-          if (f.includes(d.type)) return true;
-          return false;
-        })
-        .sort((a, b) => {
-          return dayjs(b.time).isBefore(dayjs(a.time))
-            ? 1
-            : dayjs(b.time).isSame(dayjs(a.time))
-            ? 0
-            : -1;
-        });
-      setFilterData(newData);
-    },
-    [data],
-  );
+  const handleOnFilterChanged = useCallback((f: string[]) => {
+    setSelectedFilter(f);
+    if (f.length === 0) {
+      return;
+    }
+    let t0 = performance.now();
+    const newData = mockData
+      .filter((d) => {
+        if (f.includes(d.type)) return true;
+        return false;
+      })
+      .sort((a, b) => {
+        return dayjs(b.time).isBefore(dayjs(a.time))
+          ? 1
+          : dayjs(b.time).isSame(dayjs(a.time))
+          ? 0
+          : -1;
+      });
+    setFilterData(newData);
+    let t1 = performance.now();
+    console.log("handleOnFilterChanged() took " + (t1 - t0) + " milliseconds.");
+  }, []);
 
   const tableData = useMemo(() => {
-    return selectedFilter.length > 0 ? filteredData : data;
-  }, [data, filteredData, selectedFilter]);
+    return selectedFilter.length > 0 ? filteredData : mockData; //data;
+  }, [filteredData, selectedFilter]);
+
+  const numOfRecord = useMemo(() => {
+    return tableData.length;
+  }, [tableData.length]);
 
   return (
     <main className="flex flex-col min-h-screen items-center px-10 font-mono">
@@ -324,7 +333,7 @@ export default function Home() {
                   <CheckboxGroup
                     label="Filters"
                     orientation="horizontal"
-                    color="secondary"
+                    color="primary"
                     value={selectedFilter}
                     onValueChange={handleOnFilterChanged}
                     size="sm"
@@ -343,6 +352,9 @@ export default function Home() {
                     title={liveMetadata?.title}
                     thumbnail={liveMetadata?.thumbnail}
                   />
+                  <div className="flex justify-end text-center text-xs text-white/50 mr-2">
+                    Records: {numOfRecord}
+                  </div>
                   <CustomTableHeader />
                   <Table
                     aria-label="yt-chat-message-table"

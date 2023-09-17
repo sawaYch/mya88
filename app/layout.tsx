@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   referrer: "origin",
   creator: "No.159 Sawa",
   publisher: "Vercel",
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#ff79c6" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#da2777" }],
   colorScheme: "dark",
   viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
