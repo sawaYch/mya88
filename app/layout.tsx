@@ -7,8 +7,43 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "さようなら Mya 🐼",
-  description: "さようなら Mya 🐼",
+  title: "さようならMya🐼",
+  description: "A helper to say goodbye.",
+  applicationName: "Sayonara-Mya",
+  authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
+  generator: "Next.js",
+  keywords: ["youtube", "mya", "vtuber", "hkvtuber"],
+  referrer: "origin",
+  creator: "No.159 Sawa",
+  publisher: "Vercel",
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#ff79c6" }],
+  colorScheme: "dark",
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
+  openGraph: {
+    type: "website",
+    url: "https://sayonara-mya.vercel.app/",
+    title: "さようならMya🐼",
+    description: "A helper to say goodbye.",
+    siteName: "Sayonara-Mya",
+    images: [
+      {
+        url: "https://sayonara-mya.vercel.app/og",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@site",
+    creator: "@creator",
+    images: "https://sayonara-mya.vercel.app/og",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "さようならMya🐼",
+    statusBarStyle: "black-translucent",
+    startupImage: "https://sayonara-mya.vercel.app/greeting.webp",
+  },
   icons: [
     {
       rel: "icon",
