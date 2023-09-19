@@ -17,6 +17,7 @@ import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
 import { useLiveChat } from "./hooks";
 import { AutoSizer, List } from "react-virtualized";
+import { isMobile, isMobileSafari, isSafari } from "react-device-detect";
 import "react-virtualized/styles.css";
 import {
   AuthorSection,
@@ -257,7 +258,14 @@ export default function Home() {
   }, [tableData.length]);
 
   return (
-    <main className="flex flex-col h-screen items-center px-2 sm:px-10 font-mono w-screen overflow-hidden">
+    <main
+      className={cn(
+        "fixed flex flex-col h-screen items-center px-2 sm:px-10 font-mono w-screen overflow-hidden",
+        {
+          "max-h-[85vh]": isMobile,
+        },
+      )}
+    >
       <AuthorSection />
       {!isAuth ? (
         <AuthForm onSubmit={handleAuth} />

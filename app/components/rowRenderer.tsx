@@ -1,8 +1,9 @@
 import { MessageData } from "@/types";
 import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
-import { Key, PropsWithChildren, useCallback, useMemo, useState } from "react";
-import { Avatar, Badge, Checkbox, useTable } from "@nextui-org/react";
+import { Key, PropsWithChildren, useCallback, useMemo } from "react";
+import { isMobile } from "react-device-detect";
+import { Avatar, Badge, Checkbox } from "@nextui-org/react";
 import dayjs from "dayjs";
 
 interface RowRendererProps extends ListRowProps {
@@ -165,7 +166,9 @@ export const RowRenderer = ({
             <div className="text-xxs">
               {dayjs(user.time).format("DD/MMM/YYYY HH:mm:ss")}
             </div>
-            <div className="text-xs sm:text-md">{user.message}</div>
+            <div className={cn("text-xs sm:text-md", { "text-xxs": isMobile })}>
+              {user.message}
+            </div>
           </div>
         </div>
       </Checkbox>
