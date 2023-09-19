@@ -26,7 +26,7 @@ import {
   AuthForm,
   RowRenderer,
 } from "./components";
-import { defaultBaseInterval } from "./utils";
+import { defaultBaseInterval, vidParser } from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
 
 export default function Home() {
@@ -144,7 +144,7 @@ export default function Home() {
       setLiveUrlError(undefined);
       setIsLoading(true);
       // check live url vid
-      const vid = urlInputValue?.split("watch?v=")?.[1];
+      const vid = vidParser(urlInputValue);
       if (vid == null || vid.length === 0) {
         setLiveUrlError("Invalid youtube live url format");
         setIsLoading(false);
