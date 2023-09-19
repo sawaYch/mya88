@@ -17,7 +17,7 @@ import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
 import { useLiveChat } from "./hooks";
 import { AutoSizer, List } from "react-virtualized";
-import { isMobile, isMobileSafari, isSafari } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import "react-virtualized/styles.css";
 import {
   AuthorSection,
