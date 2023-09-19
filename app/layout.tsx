@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     capable: true,
     title: "さようならMya🐼",
     statusBarStyle: "black-translucent",
-    startupImage: "https://sayonara-mya.vercel.app/greeting.webp",
+    startupImage: "https://sayonara-mya.vercel.app/apple-touch-startup.png",
   },
   icons: [
     {
