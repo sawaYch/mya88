@@ -8,7 +8,7 @@ export const AuthorSection = () => {
   }, []);
   return (
     <div className="flex self-end mt-2 relative select-none">
-      <div className="flex flex-col items-center justify-center text-xs">
+      <div className="flex flex-col items-center justify-center text-xxs leading-none">
         さようなら Mya {appVersion ?? "unknown version"}
         <div>Created By No.159</div>
         <div>Sawa</div>
@@ -23,8 +23,8 @@ export const AuthorSection = () => {
           className="rounded-full"
           src="/author.jpg"
           alt="author"
-          width={32}
-          height={32}
+          width={28}
+          height={28}
         />
       </a>
     </div>
