@@ -14,7 +14,6 @@ export const useLiveChat = () => {
     async (liveChatId: string, nextToken?: string) => {
       try {
         const data = await fetchLiveChat(liveChatId, nextToken);
-        console.log("data", data);
         if (data.ok) {
           return { success: true, ...data };
         } else {

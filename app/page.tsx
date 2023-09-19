@@ -1,18 +1,13 @@
 "use client";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
   Input,
   Button,
-  Selection,
   Spinner,
   useDisclosure,
   CheckboxGroup,
   Checkbox,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Key, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -21,19 +16,21 @@ import dayjs from "dayjs";
 import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
 import { useLiveChat } from "./hooks";
+import { AutoSizer, List } from "react-virtualized";
+import "react-virtualized/styles.css";
 import {
   AuthorSection,
   MetadataSection,
-  tableCellRenderer,
-  CustomTableHeader,
   ConfirmModal,
   AuthForm,
+  RowRenderer,
 } from "./components";
-import { tableColumns, defaultBaseInterval, mockData } from "./utils";
+import { defaultBaseInterval } from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
 
 export default function Home() {
   const [urlInputValue, setUrlInputValue] = useState("");
+  // NEW method to handle readByeBye
   const [readByeBye, setReadByeBye] = useState<Set<Key>>(new Set([]));
   const [liveUrlError, setLiveUrlError] = useState<string | undefined>();
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -45,7 +42,7 @@ export default function Home() {
   const [activeChatMessageId, setActiveChatMessageId] = useState<
     string | undefined
   >();
-  const [data, setData] = useState<MessageData[]>([]);
+  const [YtMessageData, setYtMessageData] = useState<MessageData[]>([]);
   const [liveMetadata, setLiveMetadata] = useState<LiveMetadata | undefined>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [checkedUsers, setCheckedUsers] = useState<Set<string>>(new Set([]));
@@ -66,7 +63,6 @@ export default function Home() {
         return;
       }
       const d = await fetchLiveChatMessage(chatId, nextToken);
-      console.log("d", d);
       if (!d.success) {
         setIsLoading(false);
         setLiveUrlError(d.message);
@@ -86,7 +82,7 @@ export default function Home() {
         isChatSponsor: it.authorDetails.isChatSponsor,
         isChatModerator: it.authorDetails.isChatModerator,
       }));
-      setData((prev) =>
+      setYtMessageData((prev) =>
         uniqBy([...prev, ...newData], (obj) => obj.key).sort((a, b) => {
           return dayjs(b.time).isBefore(dayjs(a.time))
             ? 1
@@ -137,7 +133,7 @@ export default function Home() {
       }
     }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [YtMessageData]);
 
   const handleUrlChange = useCallback(async () => {
     // start / stop
@@ -155,19 +151,19 @@ export default function Home() {
       }
 
       // check vid is correct
-      // const result = await fetchLiveStreamingDetails(vid);
-      // if (!result.success) {
-      //   setIsLoading(false);
-      //   setLiveUrlError(result.message);
-      //   return;
-      // }
+      const result = await fetchLiveStreamingDetails(vid);
+      if (!result.success) {
+        setIsLoading(false);
+        setLiveUrlError(result.message);
+        return;
+      }
 
-      // setActiveChatMessageId(result.activeLiveChatId);
-      // setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
+      setActiveChatMessageId(result.activeLiveChatId);
+      setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
 
       // all green, reset any error flag
       setIsReady(true);
-      setData([]);
+      setYtMessageData([]);
       setFilterData([]);
       setSelectedFilter([]);
       setCheckedUsers(new Set([]));
@@ -176,31 +172,26 @@ export default function Home() {
     }
   }, [fetchLiveStreamingDetails, isReady, onOpen, urlInputValue]);
 
-  const handleReadByeBye = useCallback(
-    (keys: Selection) => {
-      let t0 = performance.now();
+  const handleRowCheckChanged = useCallback(
+    (key: string, checked: boolean) => {
+      if (!checked) return false;
+      const newSet = new Set(readByeBye);
+      if (!readByeBye.has(key)) {
+        newSet.add(key);
+      }
 
-      if (keys == "all") return;
-      // not allow to un-tick
-      if (keys.size < readByeBye.size) return;
-
-      // find user messageData of the newly selected key
-      const selectedKeyUsername = mockData
-        .filter((it) => Array.from(keys).includes(it.key))
-        .map((it) => it.name);
+      const selectedKeyUsername = YtMessageData.filter((it) =>
+        Array.from(newSet).includes(it.key),
+      ).map((it) => it.name);
 
       // keys should be mark as read
-      const keysShouldBeSelected = mockData
-        .filter((it) => selectedKeyUsername.includes(it.name))
-        .map((it) => it.key);
-
-      // record bye-bye-ed user & checked user
+      const keysShouldBeSelected = YtMessageData.filter((it) =>
+        selectedKeyUsername.includes(it.name),
+      ).map((it) => it.key);
       setCheckedUsers(new Set(selectedKeyUsername));
       setReadByeBye(new Set(keysShouldBeSelected));
-      let t1 = performance.now();
-      console.log("handleReadByeBye() took " + (t1 - t0) + " milliseconds.");
     },
-    [readByeBye],
+    [YtMessageData, readByeBye],
   );
 
   const handleStopProcess = useCallback(() => {
@@ -236,46 +227,45 @@ export default function Home() {
     }
   }, []);
 
-  const handleOnFilterChanged = useCallback((f: string[]) => {
-    setSelectedFilter(f);
-    if (f.length === 0) {
-      return;
-    }
-    let t0 = performance.now();
-    const newData = mockData
-      .filter((d) => {
+  const handleOnFilterChanged = useCallback(
+    (f: string[]) => {
+      setSelectedFilter(f);
+      if (f.length === 0) {
+        return;
+      }
+      const newData = YtMessageData.filter((d) => {
         if (f.includes(d.type)) return true;
         return false;
-      })
-      .sort((a, b) => {
+      }).sort((a, b) => {
         return dayjs(b.time).isBefore(dayjs(a.time))
           ? 1
           : dayjs(b.time).isSame(dayjs(a.time))
           ? 0
           : -1;
       });
-    setFilterData(newData);
-    let t1 = performance.now();
-    console.log("handleOnFilterChanged() took " + (t1 - t0) + " milliseconds.");
-  }, []);
+      setFilterData(newData);
+    },
+    [YtMessageData],
+  );
 
   const tableData = useMemo(() => {
-    return selectedFilter.length > 0 ? filteredData : mockData; //data;
-  }, [filteredData, selectedFilter]);
+    return selectedFilter.length > 0 ? filteredData : YtMessageData;
+  }, [YtMessageData, filteredData, selectedFilter.length]);
 
   const numOfRecord = useMemo(() => {
     return tableData.length;
   }, [tableData.length]);
 
   return (
-    <main className="flex flex-col min-h-screen items-center px-10 font-mono">
+    <main className="flex flex-col h-screen items-center px-2 sm:px-10 font-mono w-screen overflow-hidden">
       <AuthorSection />
       {!isAuth ? (
         <AuthForm onSubmit={handleAuth} />
       ) : (
         <>
           <motion.div
-            className={cn("flex flex-col w-full grow", {
+            className={cn("flex flex-col w-full z-10", {
+              grow: isAuth,
               "justify-center": !isReady,
               "justify-start mt-2": isReady,
             })}
@@ -290,7 +280,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="flex flex-col w-full grow">
+                <div className="flex flex-col w-full">
                   <Input
                     type="url"
                     isClearable={!isReady}
@@ -302,24 +292,27 @@ export default function Home() {
                     disabled={isReady}
                     autoComplete="off"
                     color={isReady ? "success" : "default"}
+                    className={"text-md"}
                   />
-                  <div className="text-danger">
-                    {liveUrlError ?? (isReady && "✅")}
-                  </div>
-                </div>
-                <Button
-                  isIconOnly
-                  aria-label="go"
-                  color={isReady ? "danger" : "secondary"}
-                  className="text-white h-14 w-14 rounded-full mb-4"
-                  onClick={handleUrlChange}
-                >
-                  {isLoading ? (
-                    <Spinner color="default" />
-                  ) : (
-                    <div className="text-4xl">🐼</div>
+                  {liveUrlError && (
+                    <div className="text-danger text-xs">{`⚠️${liveUrlError}`}</div>
                   )}
-                </Button>
+                </div>
+                <div className="flex grow">
+                  <Button
+                    isIconOnly
+                    aria-label="go"
+                    color={isReady ? "danger" : "secondary"}
+                    className="text-white h-14 w-14 rounded-full mb-4"
+                    onClick={handleUrlChange}
+                  >
+                    {isLoading ? (
+                      <Spinner color="default" />
+                    ) : (
+                      <div className="text-4xl">🐼</div>
+                    )}
+                  </Button>
+                </div>
               </motion.div>
               {isReady && (
                 <motion.div
@@ -328,82 +321,81 @@ export default function Home() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="h-[64vh]"
+                  className="grow mb-4 justify-stretch items-stretch flex flex-col"
                 >
-                  <CheckboxGroup
-                    label="Filters"
-                    orientation="horizontal"
-                    color="primary"
-                    value={selectedFilter}
-                    onValueChange={handleOnFilterChanged}
-                    size="sm"
-                    radius="full"
-                    classNames={{
-                      label: "text-xs",
+                  <Accordion
+                    showDivider={false}
+                    variant="splitted"
+                    isCompact
+                    className="mx-0 px-0"
+                    itemClasses={{
+                      content: "mb-2",
                     }}
-                    className="mt-2"
                   >
-                    <Checkbox value="superChatEvent">Superchat💬</Checkbox>
-                    <Checkbox value="membershipGiftingEvent">
-                      Membership Gift🎁
-                    </Checkbox>
-                  </CheckboxGroup>
-                  <MetadataSection
-                    title={liveMetadata?.title}
-                    thumbnail={liveMetadata?.thumbnail}
-                  />
-                  <div className="flex justify-end text-center text-xs text-white/50 mr-2">
-                    Records: {numOfRecord}
+                    <AccordionItem
+                      key="1"
+                      aria-label="metadata-accordion"
+                      indicator={<div>➕</div>}
+                      startContent={
+                        <MetadataSection
+                          title={liveMetadata?.title}
+                          thumbnail={liveMetadata?.thumbnail}
+                        />
+                      }
+                    >
+                      <CheckboxGroup
+                        label="Filters"
+                        orientation="horizontal"
+                        color="primary"
+                        value={selectedFilter}
+                        onValueChange={handleOnFilterChanged}
+                        size="sm"
+                        radius="full"
+                        classNames={{
+                          label: "text-xs",
+                        }}
+                      >
+                        <Checkbox value="superChatEvent">Superchat💬</Checkbox>
+                        <Checkbox value="membershipGiftingEvent">
+                          Membership Gift🎁
+                        </Checkbox>
+                      </CheckboxGroup>
+                    </AccordionItem>
+                  </Accordion>
+                  <div className="flex justify-end items-center">
+                    <div className="flex">
+                      <span className="relative flex h-3 w-3 justify-center items-center">
+                        <span
+                          ref={updateIndicatorRef}
+                          className="animate-ping invisible absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"
+                        ></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                      </span>
+                    </div>
+                    <div className="flex text-center text-xs text-white/50 mr-2 ml-1">
+                      Records: {numOfRecord}
+                    </div>
                   </div>
-                  <CustomTableHeader />
-                  <Table
-                    aria-label="yt-chat-message-table"
-                    selectedKeys={readByeBye}
-                    onSelectionChange={handleReadByeBye}
-                    selectionMode="multiple"
-                    color="success"
-                    classNames={{
-                      base: "max-h-[100%] overflow-hidden",
-                      table: "min-h-[64vh] -mt-12",
-                      thead: "invisible",
-                      wrapper:
-                        "rounded-br-none rounded-tr-none rounded-tl-none",
-                      td: "break-all select-none",
-                    }}
-                    isHeaderSticky
-                    shadow="none"
-                  >
-                    <TableHeader aria-label="header" columns={tableColumns}>
-                      {(column) => (
-                        <TableColumn
-                          aria-label="column"
-                          key={column.key}
-                          width={column.width}
-                        >
-                          {column.label}
-                        </TableColumn>
-                      )}
-                    </TableHeader>
-                    <TableBody items={tableData}>
-                      {(item) => (
-                        <TableRow aria-label="row" key={item.key}>
-                          {(columnKey) => (
-                            <TableCell aria-label="cell">
-                              {tableCellRenderer(item, columnKey)}
-                            </TableCell>
+                  <div className="flex-1">
+                    <AutoSizer>
+                      {({ width, height }) => (
+                        <List
+                          width={width}
+                          height={height}
+                          rowCount={tableData.length}
+                          rowHeight={128}
+                          overscanRowCount={3}
+                          rowRenderer={(props) => (
+                            <RowRenderer
+                              {...props}
+                              list={tableData}
+                              onRowCheckChanged={handleRowCheckChanged}
+                              checkedList={readByeBye}
+                            />
                           )}
-                        </TableRow>
+                        />
                       )}
-                    </TableBody>
-                  </Table>
-                  <div className="flex  justify-end mt-2">
-                    <span className="relative flex h-3 w-3 justify-center items-center">
-                      <span
-                        ref={updateIndicatorRef}
-                        className="animate-ping invisible absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"
-                      ></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
-                    </span>
+                    </AutoSizer>
                   </div>
                 </motion.div>
               )}

@@ -5,7 +5,9 @@ export const mockData: MessageData[] = [
     key: "054896c0-b5e4-4bf4-8665-ca6b5547c2a3",
     name: "Caroljean Ebden",
     pic: "http://dummyimage.com/100x100.png/cc0000/ffffff",
-    message: "ﾟ･✿ヾ╲(｡◕‿◕｡)╱✿･ﾟ",
+    // max 200 characters
+    message:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type a",
     type: "memberMilestoneChatEvent",
     time: "2022-12-30T12:17:11Z",
     isChatOwner: true,
@@ -14,7 +16,7 @@ export const mockData: MessageData[] = [
   },
   {
     key: "cce8d06c-696c-48fd-bfb3-a94a05d72248",
-    name: "Anya Gerish",
+    name: "Caroljean Ebden",
     pic: "http://dummyimage.com/100x100.png/5fa2dd/ffffff",
     message: "!@#$%^&*()",
     type: "textMessageEvent",
@@ -25,7 +27,7 @@ export const mockData: MessageData[] = [
   },
   {
     key: "31e2ccf6-5d6d-441b-b142-9dbf9b225273",
-    name: "Thorstein Fenge",
+    name: "Caroljean Ebden",
     pic: "http://dummyimage.com/100x100.png/5fa2dd/ffffff",
     message: "'",
     type: "newSponsorEvent",
