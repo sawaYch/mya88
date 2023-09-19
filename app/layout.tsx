@@ -219,15 +219,13 @@ export const metadata: Metadata = {
       },
     ],
   },
-  icons: {
-    icon: "/greeting.webp",
-    shortcut: "/favicon.ico",
-    apple: "/splash_screens/icon.png",
-    other: {
-      rel: "apple-touch-icon-precomposed",
-      url: "/splash_screens/icon.png",
+  icons: [
+    {
+      rel: "icon",
+      url: "/greeting.webp",
+      type: "image/webp",
     },
-  },
+  ],
 };
 
 export default function RootLayout({

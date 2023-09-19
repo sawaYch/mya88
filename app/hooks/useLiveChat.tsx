@@ -43,7 +43,7 @@ export const useLiveChat = () => {
         if (activeLiveChatId == null) {
           return {
             success: false,
-            message: "Url source is not a active live",
+            message: "Url source is not an active live",
           };
         }
         return { success: true, activeLiveChatId, title, thumbnail, channelId };
