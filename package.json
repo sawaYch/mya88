@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.12",
+    "@react-hooks-library/core": "^0.5.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/node": "20.6.0",
     "@types/react": "18.2.21",

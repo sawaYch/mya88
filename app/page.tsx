@@ -10,13 +10,17 @@ import {
   AccordionItem,
   Tooltip,
 } from "@nextui-org/react";
+// @ts-ignore next-line
+import {
+  BreakPointHooks,
+  breakpointsTailwind,
+} from "@react-hooks-library/core";
 import { AnimatePresence, motion } from "framer-motion";
 import { Key, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import cn from "classnames";
 import dayjs from "dayjs";
 import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
-import { useLiveChat } from "./hooks";
 import { AutoSizer, List } from "react-virtualized";
 import { isMobile } from "react-device-detect";
 import { IoPeopleCircleSharp } from "react-icons/io5";
@@ -28,6 +32,7 @@ import {
   AuthForm,
   RowRenderer,
 } from "./components";
+import { useLiveChat } from "./hooks";
 import { defaultBaseInterval, vidParser } from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
 import { AudienceModalList } from "./components/audienceModalList";
@@ -285,6 +290,9 @@ export default function Home() {
     [checkedUsers, handleRowCheckChanged, tableData],
   );
 
+  const { useSmaller } = BreakPointHooks(breakpointsTailwind);
+  const isMobileBreakpoint = useSmaller("md");
+
   return (
     <main
       className={cn(
@@ -437,7 +445,7 @@ export default function Home() {
                           width={width}
                           height={height}
                           rowCount={tableData.length}
-                          rowHeight={128}
+                          rowHeight={isMobileBreakpoint ? 128 : 90}
                           overscanRowCount={3}
                           rowRenderer={(props) => (
                             <RowRenderer
