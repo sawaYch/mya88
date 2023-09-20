@@ -36,7 +36,6 @@ export const AudienceListRowRenderer = ({
 
   const handleValueChange = useCallback(
     (isSelected: boolean) => {
-      console.log("isSelected", isSelected);
       // NOTE Reject is disabled
       if (isSelected) {
         // add
@@ -52,22 +51,8 @@ export const AudienceListRowRenderer = ({
             .map((it) => it.name),
           user.name,
         ];
-        console.log("row call added");
         onSelectionChange(newCheckedUserList);
       }
-      // else {
-      //   // remove
-      //   if (
-      //     distinctUserList
-      //       .filter((it) => !it.isSelected)
-      //       .some((i) => i.name === user.name)
-      //   )
-      //     return;
-      //   const newCheckedUserList = distinctUserList
-      //     .filter((it) => (it.name === user.name ? false : it.isSelected))
-      //     .map((it) => it.name);
-      //   onSelectionChange(newCheckedUserList);
-      // }
     },
     [distinctUserList, onSelectionChange, user.name],
   );

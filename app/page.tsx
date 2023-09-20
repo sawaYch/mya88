@@ -280,16 +280,6 @@ export default function Home() {
         if (checkedUserKey == null) return;
         handleRowCheckChanged(checkedUserKey.key, true);
       }
-      // Remove is rejected
-      // if (updateCheckedUsers.length < checkedUsers.size) {
-      //   const checkedUsersArray = Array.from(checkedUsers);
-      //   const extraElement = checkedUsersArray.find(
-      //     (element) => !updateCheckedUsers.includes(element)
-      //   );
-      //   const checkedUserKey = tableData.find((it) => it.name === extraElement);
-      //   if (checkedUserKey == null) return;
-      //   handleRowCheckChanged(checkedUserKey.key, false);
-      // }
       setCheckedUsers(new Set(updateCheckedUsers));
     },
     [checkedUsers, handleRowCheckChanged, tableData],
