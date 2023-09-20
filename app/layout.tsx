@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "さようならMya🐼",
-  description: "A helper to say goodbye.",
+  description: "GoodBye! 君の運命のヒトは僕じゃない~",
   applicationName: "Sayonara-Mya",
   authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
   generator: "Next.js",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://sayonara-mya.vercel.app/",
     title: "さようならMya🐼",
-    description: "A helper to say goodbye.",
+    description: "GoodBye! 君の運命のヒトは僕じゃない~",
     siteName: "Sayonara-Mya",
     images: [
       {

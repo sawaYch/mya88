@@ -10,15 +10,16 @@ interface RowRendererProps extends ListRowProps {
   list: MessageData[];
   onRowCheckChanged: (key: string, checked: boolean) => void;
   checkedList: Set<Key>;
+  childKey: string;
 }
 
-interface userRoleBadgeProps {
+export interface userRoleBadgeProps {
   isChatModerator: boolean;
   isChatOwner: boolean;
   isChatSponsor: boolean;
 }
 
-const UserRoleBadge = ({
+export const UserRoleBadge = ({
   isChatModerator,
   isChatOwner,
   isChatSponsor,
@@ -53,7 +54,7 @@ const UserRoleBadge = ({
 
 export const RowRenderer = ({
   index,
-  key,
+  childKey,
   style,
   list,
   checkedList,
@@ -102,7 +103,7 @@ export const RowRenderer = ({
   }, [checkedList, user.key]);
 
   return (
-    <div key={key} style={style} className="flex">
+    <div key={childKey} style={style} className="flex">
       <Checkbox
         aria-label={user.name}
         isSelected={isSelected}

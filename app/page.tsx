@@ -8,6 +8,7 @@ import {
   Checkbox,
   Accordion,
   AccordionItem,
+  Tooltip,
 } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Key, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -18,6 +19,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useLiveChat } from "./hooks";
 import { AutoSizer, List } from "react-virtualized";
 import { isMobile } from "react-device-detect";
+import { IoPeopleCircleSharp } from "react-icons/io5";
 import "react-virtualized/styles.css";
 import {
   AuthorSection,
@@ -28,6 +30,7 @@ import {
 } from "./components";
 import { defaultBaseInterval, vidParser } from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
+import { AudienceModalList } from "./components/audienceModalList";
 
 export default function Home() {
   const [urlInputValue, setUrlInputValue] = useState("");
@@ -257,6 +260,41 @@ export default function Home() {
     return tableData.length;
   }, [tableData.length]);
 
+  const {
+    isOpen: isAudienceListOpen,
+    onOpen: onAudienceListOpen,
+    onClose: onAudienceListClose,
+  } = useDisclosure();
+
+  const [enableDistinctAudCheck, setEnableDistinctAudCheck] = useState(false);
+
+  const handleSelectionChange = useCallback(
+    (updateCheckedUsers: string[]) => {
+      if (updateCheckedUsers.length === checkedUsers.size) return;
+      if (updateCheckedUsers.length > checkedUsers.size) {
+        const checkedUsersArray = Array.from(checkedUsers);
+        const extraElement = updateCheckedUsers.find(
+          (element) => !checkedUsersArray.includes(element),
+        );
+        const checkedUserKey = tableData.find((it) => it.name === extraElement);
+        if (checkedUserKey == null) return;
+        handleRowCheckChanged(checkedUserKey.key, true);
+      }
+      // Remove is rejected
+      // if (updateCheckedUsers.length < checkedUsers.size) {
+      //   const checkedUsersArray = Array.from(checkedUsers);
+      //   const extraElement = checkedUsersArray.find(
+      //     (element) => !updateCheckedUsers.includes(element)
+      //   );
+      //   const checkedUserKey = tableData.find((it) => it.name === extraElement);
+      //   if (checkedUserKey == null) return;
+      //   handleRowCheckChanged(checkedUserKey.key, false);
+      // }
+      setCheckedUsers(new Set(updateCheckedUsers));
+    },
+    [checkedUsers, handleRowCheckChanged, tableData],
+  );
+
   return (
     <main
       className={cn(
@@ -351,23 +389,41 @@ export default function Home() {
                         />
                       }
                     >
-                      <CheckboxGroup
-                        label="Filters"
-                        orientation="horizontal"
-                        color="primary"
-                        value={selectedFilter}
-                        onValueChange={handleOnFilterChanged}
-                        size="sm"
-                        radius="full"
-                        classNames={{
-                          label: "text-xs",
-                        }}
-                      >
-                        <Checkbox value="superChatEvent">Superchat💬</Checkbox>
-                        <Checkbox value="membershipGiftingEvent">
-                          Membership Gift🎁
-                        </Checkbox>
-                      </CheckboxGroup>
+                      <div className="flex items-center">
+                        <div className="flex">
+                          <CheckboxGroup
+                            label="Filters"
+                            orientation="horizontal"
+                            color="primary"
+                            value={selectedFilter}
+                            onValueChange={handleOnFilterChanged}
+                            size="sm"
+                            radius="full"
+                            classNames={{
+                              label: "text-xs",
+                            }}
+                          >
+                            <Checkbox value="superChatEvent">
+                              Superchat💬
+                            </Checkbox>
+                            <Checkbox value="membershipGiftingEvent">
+                              Membership Gift🎁
+                            </Checkbox>
+                          </CheckboxGroup>
+                        </div>
+                        <div className="flex ml-auto">
+                          <Tooltip content="Audience List">
+                            <Button
+                              isIconOnly
+                              color="secondary"
+                              aria-label="show-user-list"
+                              onClick={onAudienceListOpen}
+                            >
+                              <IoPeopleCircleSharp size={36} />
+                            </Button>
+                          </Tooltip>
+                        </div>
+                      </div>
                     </AccordionItem>
                   </Accordion>
                   <div className="flex justify-end items-center">
@@ -396,6 +452,8 @@ export default function Home() {
                           rowRenderer={(props) => (
                             <RowRenderer
                               {...props}
+                              childKey={props.key}
+                              key={props.key}
                               list={tableData}
                               onRowCheckChanged={handleRowCheckChanged}
                               checkedList={readByeBye}
@@ -413,6 +471,17 @@ export default function Home() {
             isOpen={isOpen}
             onClose={onClose}
             handleStopProcess={handleStopProcess}
+          />
+          <AudienceModalList
+            onClose={onAudienceListClose}
+            isOpen={isAudienceListOpen}
+            audienceList={checkedUsers}
+            tableData={tableData}
+            isEnableDistinctAudCheck={enableDistinctAudCheck}
+            onToggleDistinctAudCheck={() => {
+              setEnableDistinctAudCheck((prev) => !prev);
+            }}
+            onSelectionChange={handleSelectionChange}
           />
         </>
       )}
