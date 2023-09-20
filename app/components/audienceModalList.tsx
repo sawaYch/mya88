@@ -66,12 +66,18 @@ export const AudienceModalList = ({
                 Display distinct audience captured from app start only, past
                 records are not covered.
               </div>
-              <div className="flex flex-1 w-full gap-2 items-end justify-end">
+              <div className="flex flex-1 w-full gap-2 items-center text-xxs justify-between">
+                <div className="flex flex-col leading-tight items-start">
+                  <div>Progress</div>
+                  <div>
+                    {audienceList.size}/{distinctUserList.length}
+                  </div>
+                </div>
                 <Switch
                   isSelected={!isEnableDistinctAudCheck}
                   onValueChange={handleValueChange}
                   aria-label="toggle checkable"
-                  color="warning"
+                  color="danger"
                   size="sm"
                   className="font-light"
                   startContent={<AiFillLock style={{ fill: "white" }} />}
