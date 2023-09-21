@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Mya88🐼",
   description: "GoodBye! 君の運命のヒトは僕じゃない~",
-  applicationName: "Sayonara-Mya",
+  applicationName: "Mya88",
   authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
   generator: "Next.js",
   keywords: ["youtube", "mya", "vtuber", "hkvtuber"],
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     type: "website",
-    url: "https://sayonara-mya.vercel.app/",
+    url: "https://mya88.vercel.app/",
     title: "Mya88🐼",
     description: "GoodBye! 君の運命のヒトは僕じゃない~",
-    siteName: "Sayonara-Mya",
+    siteName: "Mya88",
     images: [
       {
-        url: "https://sayonara-mya.vercel.app/og",
+        url: "https://mya88.vercel.app/og",
       },
     ],
   },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@site",
     creator: "@creator",
-    images: "https://sayonara-mya.vercel.app/og",
+    images: "https://mya88.vercel.app/og",
   },
   appleWebApp: {
     capable: true,

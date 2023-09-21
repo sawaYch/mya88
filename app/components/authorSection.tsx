@@ -23,8 +23,6 @@ export const AuthorSection = () => {
           className="rounded-full"
           src="/author.jpg"
           alt="author"
-          width={28}
-          height={28}
         />
       </a>
     </div>

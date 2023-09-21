@@ -1,4 +1,4 @@
-# Sayonara-mya
+# Mya88
 
 ![Alt text](./docs/preview.png)
 

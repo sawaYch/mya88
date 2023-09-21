@@ -29,8 +29,6 @@ export const AuthForm = ({ onSubmit }: AuthFormProps) => {
             src={"/greeting.webp"}
             alt="banner"
             radius="full"
-            height={64}
-            width={64}
             className="object-cover object-center pointer-events-none select-none ring-2 ring-offset-2 ring-offset-default-100 ring-pink-500"
           />
           <div className="text-sm uppercase">㊙️Secret Code㊙️</div>
