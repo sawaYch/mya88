@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "さようならMya🐼",
+  title: "Mya88🐼",
   description: "GoodBye! 君の運命のヒトは僕じゃない~",
   applicationName: "Sayonara-Mya",
   authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://sayonara-mya.vercel.app/",
-    title: "さようならMya🐼",
+    title: "Mya88🐼",
     description: "GoodBye! 君の運命のヒトは僕じゃない~",
     siteName: "Sayonara-Mya",
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    title: "さようならMya🐼",
+    title: "Mya88🐼",
     statusBarStyle: "black-translucent",
     startupImage: [
       {

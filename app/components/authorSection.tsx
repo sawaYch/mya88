@@ -9,7 +9,7 @@ export const AuthorSection = () => {
   return (
     <div className="flex self-end mt-2 relative select-none">
       <div className="flex flex-col items-center justify-center text-xxs leading-none">
-        さようなら Mya {appVersion ?? "unknown version"}
+        Mya88 {appVersion ?? "unknown version"}
         <div>Created By No.159</div>
         <div>Sawa</div>
       </div>

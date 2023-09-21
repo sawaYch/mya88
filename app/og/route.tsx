@@ -28,7 +28,7 @@ export async function GET() {
         />
         <h2 tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 text-left">
           <span tw="text-white/70 ml-2">Goodnight</span>
-          <span tw="text-pink-600 text-6xl">さようならMya🐼</span>
+          <span tw="text-pink-600 text-6xl">またね, Mya🐼</span>
         </h2>
       </div>
     ),
