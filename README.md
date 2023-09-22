@@ -4,7 +4,7 @@
 
 ## Problem Statement
 
-[HKVtuber MYA](https://www.youtube.com/@mya.) say 'bye bye' to the audience and read audience name one by one before live stream end. Unfortunately chatroom contains some 'bye bye' message that mixed with unrelated message, which cause MYA difficult to see and differentiate 'bye bye' messages from distinct users. Can you help MYA write a program to solve this issue?
+[Mya](https://www.youtube.com/@mya.) regularly say 'bye bye' to the audience and read each audience's name one by one before live stream end. Usually, the chatroom contains some 'bye bye' message that mixed with other unrelated message, which cause Mya difficult to see and differentiate the messages from distinct user. Can you help Mya write a program to solve this issue?
 
 ## Usage
 
@@ -13,8 +13,12 @@ This webapp is a youtube live chat viewer powered by NextJS.
 1. When you ready to say good-bye, open this webapp.
 2. Input the passphrase to authenticate.
 3. Input the live stream URL, for example `https://www.youtube.com/watch?v=92VgDXjI4Xg`.
-4. List of youtube chat messages should show and update periodically.
-5. Mouse click on the list item, the user message will be marked as "Read" (Green color). The future incoming message of that user will also marked as "Read" automatically. So user just need to click the list item -> focus and read those un-ticked list item.
+4. List of youtube chat messages will show and auto update periodically.
+5. Mouse click on the list item, the user message will be marked as "Read" (Green color). The future incoming message of that user will also marked as "Read" automatically.
+
+## UI Map
+
+![Mya88 UI Map](./docs/mya88-ui-map.png)
 
 ### Notices
 
