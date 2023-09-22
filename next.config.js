@@ -7,8 +7,8 @@ const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: [
-      'puppeteer-extra', 
-      'puppeteer-extra-plugin-stealth',
+      "puppeteer-extra",
+      "puppeteer-extra-plugin-stealth",
     ],
   },
 };

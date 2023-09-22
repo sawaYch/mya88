@@ -19,11 +19,7 @@ export const AuthorSection = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Image
-          className="rounded-full"
-          src="/author.jpg"
-          alt="author"
-        />
+        <Image className="rounded-full" src="/author.jpg" alt="author" />
       </a>
     </div>
   );
