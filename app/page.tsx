@@ -61,9 +61,12 @@ export default function Home() {
   const [isAuth, setIsAuth] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [filteredData, setFilterData] = useState<MessageData[]>([]);
+  const [currentPassphrase, setCurrentPassphrase] = useState<
+    string | undefined
+  >();
 
   const { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage } =
-    useLiveChat();
+    useLiveChat(currentPassphrase);
 
   const intervalLiveChatMessage = useCallback(
     async (chatId: string, nextToken?: string) => {
@@ -223,6 +226,7 @@ export default function Home() {
         },
       });
       setIsAuth(true);
+      setCurrentPassphrase(passphrase);
     } else {
       toast("Wrong Secret Code", {
         icon: "❌",

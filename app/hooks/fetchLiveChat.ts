@@ -1,9 +1,18 @@
 "use server";
-export const fetchLiveChat = async (liveChatId: string, nextToken?: string) => {
+
+import { tokenMapper } from "../utils/tokenMapper";
+
+export const fetchLiveChat = async (
+  currentPassphrase: string,
+  liveChatId: string,
+  nextToken?: string,
+) => {
+  const apiToken = tokenMapper(currentPassphrase);
+
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${liveChatId}&part=snippet,authorDetails&maxResults=2000&${
       nextToken ? `pageToken=${nextToken}&` : ""
-    }key=${process.env.YT_DATA_API_TOKEN}`,
+    }key=${apiToken}`,
   );
   const data = await res.json();
   if (res.ok) {
