@@ -8,7 +8,7 @@
 
 ## Usage
 
-This webapp is a youtube live chat viewer powered by NextJS.
+This webapp is basically youtube live chat message viewer powered by NextJS.
 
 1. When you ready to say good-bye, open this webapp.
 2. Input the passphrase to authenticate.
@@ -26,7 +26,7 @@ This webapp is a youtube live chat viewer powered by NextJS.
 ✅ Filtering on chat message by superchat / member gift types.  
 👁️ Distinguish different author role and types of message.  
 ✨ This webapp can **ONLY** retrieve the chat message published from **current moment**.  
-✨ This webapp consume Youtube Data API v3, which has daily quota limit (Don't worry, it's free). If you try to open this webapp to record the message of live stream from the beginning, it may exhaust API quota, I would personally suggest not to doing this.  
+✨ This webapp consume Youtube Data API v3, which has daily quota limit (Don't worry, it's free). If you try to open this webapp to record the message of live stream from the beginning, it may exhaust API quota. I personally suggest not to doing this.  
 Here is the testing statistic:
 
 - 3 hours 14 minutes: 99.48% of 10000 quota, 1992 request, [live stream link](https://www.youtube.com/watch?v=X4JywMi7_Nw)
