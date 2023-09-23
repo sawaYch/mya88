@@ -1,6 +1,6 @@
 "use server";
 
-import { tokenMapper } from "../utils/tokenMapper";
+import { tokenMapper } from "../utils";
 
 export const fetchLiveStreamDetails = async (
   currentPassphrase: string,

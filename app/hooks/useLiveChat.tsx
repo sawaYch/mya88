@@ -14,7 +14,11 @@ export const useLiveChat = (currentPassphrase?: string) => {
     async (liveChatId: string, nextToken?: string) => {
       try {
         if (currentPassphrase == null) {
-          return;
+          return {
+            success: false,
+            message:
+              "Fail to get stream information: Invalid Passphrase / API Token",
+          };
         }
         const data = await fetchLiveChat(
           currentPassphrase,
@@ -42,7 +46,11 @@ export const useLiveChat = (currentPassphrase?: string) => {
     async (vid: string) => {
       try {
         if (currentPassphrase == null) {
-          return;
+          return {
+            success: false,
+            message:
+              "Fail to get stream information: Invalid Passphrase / API Token",
+          };
         }
         const data = await fetchLiveStreamDetails(currentPassphrase, vid);
         if (data.ok) {

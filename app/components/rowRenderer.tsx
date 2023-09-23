@@ -1,10 +1,12 @@
 import { MessageData } from "@/types";
 import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
-import { Key, PropsWithChildren, useCallback, useMemo } from "react";
+import { Key, PropsWithChildren, ReactNode, useCallback, useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import { Avatar, Badge, Checkbox } from "@nextui-org/react";
 import dayjs from "dayjs";
+import { Image } from "@nextui-org/react";
+import { getEmojiByKey } from "../utils";
 
 interface RowRendererProps extends ListRowProps {
   list: MessageData[];
@@ -50,6 +52,32 @@ export const UserRoleBadge = ({
   }
 
   return children;
+};
+
+interface MessageRendererProps {
+  rawMessage: string;
+}
+
+const MessageRenderer = ({ rawMessage }: MessageRendererProps) => {
+  const messageWithEmoji = useMemo(() => {
+    return rawMessage.split(/(:.*?:)/g).map((emoText, idx) => {
+      if (!emoText) return null;
+      const emojiUrl = getEmojiByKey(emoText);
+      if (emojiUrl) {
+        return (
+          <Image
+            key={`${emoText}${idx}`}
+            src={emojiUrl}
+            alt={emoText}
+            className="rounded-none mx-[1px]"
+          />
+        );
+      }
+      return <p key={`${emoText}${idx}`}>{emoText}</p>;
+    });
+  }, [rawMessage]);
+
+  return <div className="flex flex-row items-center">{messageWithEmoji}</div>;
 };
 
 export const RowRenderer = ({
@@ -168,7 +196,7 @@ export const RowRenderer = ({
               {dayjs(user.time).format("DD/MMM/YYYY HH:mm:ss")}
             </div>
             <div className={cn("text-xs sm:text-md", { "text-xxs": isMobile })}>
-              {user.message}
+              <MessageRenderer rawMessage={user.message} />
             </div>
           </div>
         </div>
