@@ -22,7 +22,7 @@ import dayjs from "dayjs";
 import { uniqBy } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
 import { AutoSizer, List } from "react-virtualized";
-import { isMobile } from "react-device-detect";
+import { isIOS, isMobile, isTablet } from "react-device-detect";
 import { IoPeopleCircleSharp } from "react-icons/io5";
 import "react-virtualized/styles.css";
 import {
@@ -369,7 +369,9 @@ export default function Home() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="grow mb-4 justify-stretch items-stretch flex flex-col"
+                  className={cn(
+                    "grow mb-10 justify-stretch items-stretch flex flex-col",
+                  )}
                 >
                   <Accordion
                     showDivider={false}

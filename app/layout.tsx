@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Mya88🐼",
-  description: "Youtube live stream chat message viewer powered by Next & official data APIv3",
+  description:
+    "Youtube live stream chat message viewer powered by Next & official data APIv3",
   applicationName: "Mya88",
   authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
   generator: "Next.js",
@@ -28,7 +29,8 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://mya88.vercel.app/",
     title: "Mya88🐼",
-    description: "Youtube live stream chat message viewer powered by Next & official data APIv3",
+    description:
+      "Youtube live stream chat message viewer powered by Next & official data APIv3",
     siteName: "Mya88",
     images: [
       {
