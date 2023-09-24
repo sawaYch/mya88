@@ -9,93 +9,93 @@ export const myaSponsorTierEmoji = [
 ];
 
 export const myaSponsorEmoji = {
-  ":stick:":
+  ":_stick:":
     "https://yt3.ggpht.com/QYAWbqNVB34-KLmSXfO_slYXRXQudn33JvJFQq26KQ7uN1Y_Lfk66L3XllIZ14XZUmnMUtaL=w48-h48-c-k-nd",
-  ":greetings:":
+  ":_greetings:":
     "https://yt3.ggpht.com/qW1Xp76XOGP62xSrOhtWgQfuUdSdHf_LIdlGJekMdBxBX93qMM03vAhMiuhGwbqaAKXIqrNeXg=w48-h48-c-k-nd",
-  ":funny:":
+  ":_funny:":
     "https://yt3.ggpht.com/ZvzT_1R482-4Qgjk78H2p0jx-pl7D9WtVp029BhXHThWG15wpK4sMc6Uj0NjcNGTk0UmT4agsQ=w48-h48-c-k-nd",
-  ":disgusted:":
+  ":_disgusted:":
     "https://yt3.ggpht.com/38fLEXRDIqnANNPs-TEQ9m22_X6VsQNWByvrU3hiCJZwy29nAeVuCPaF2I8nhm8Jro7x6wTCU-o=w48-h48-c-k-nd",
-  ":gummy:":
+  ":_gummy:":
     "https://yt3.ggpht.com/_f62_grF_T7q4NmKUKpprTNsak5HAtDjQip-UwPjG5Zk_6drLd4OxknieD0q9EnW-l3XGSKPmg=w48-h48-c-k-nd",
-  ":mya:":
+  ":_mya:":
     "https://yt3.ggpht.com/32Grsrbdqa8xxLB7-izJV73KKV8VEbcZhb9ohaVwlUJi7T6HhAI2xDBHl9-wxTswjg6wHzZz=w48-h48-c-k-nd",
-  ":what:":
+  ":_what:":
     "https://yt3.ggpht.com/zFHAaYgZFW89n46p-FZrEZzLmgt6-SJah1TJD6tlS_COX8mo66k_aZoIDp4ht_TaoyhrcIAu=w48-h48-c-k-nd",
-  ":erm:":
+  ":_erm:":
     "https://yt3.ggpht.com/0_MHanMMTlpvNIJV04lVhMYlbi22uX8Ie4IXE6DI-n7oJ1m9GrPUhuGsmi4K-nZV60NkQQC4bA=w48-h48-c-k-nd",
-  ":happy:":
+  ":_happy:":
     "https://yt3.ggpht.com/iUHNHTI89xwL5r2TwrRt-3LsTYa4Ilyu27sRtMZrIQnaBLvrFaEffTwSLDTRajlKtP0aGsfq2A=w48-h48-c-k-nd",
-  ":angry:":
+  ":_angry:":
     "https://yt3.ggpht.com/RyEhGf2gGdDH1igW5WG1Zzo0KDQXAO_MaF3CWWbWD_yTT_zPaJtFaSqy0r5W1QWuu9LunRgvrg=w48-h48-c-k-nd",
-  ":congrats:":
+  ":_congrats:":
     "https://yt3.ggpht.com/KRzQpTmJbWPrJN6F0pAyOGteXUduaZ7nlnfXFCIsjPdX8h3MEt-a7HxaWNWePfGdZaAjaHYfww=w48-h48-c-k-nd",
-  ":pien:":
+  ":_pien:":
     "https://yt3.ggpht.com/5EQN5zkr99c8xehxSca6dqQHSUYFkEu_iv3-2dtJGbkjXlIBfBdfi8lMRz70I9nKzhLKEOZOKhM=w48-h48-c-k-nd",
-  ":omg:":
+  ":_omg:":
     "https://yt3.ggpht.com/lvFeIQMsUt5pq-jv_Biz9VjFhVu1us7ed0LmQPaY5ZUwUq-s8ssCPsuNIKQC8tiJOIEa-2Ioxw=w48-h48-c-k-nd",
-  ":555:":
+  ":_555:":
     "https://yt3.ggpht.com/jBNB7fLUzCJK6RC3W_xZVr_uEamryQ24gYg0UFNvvkOaeBomDEHFM_oNKmQPwFQGH-RDYB2j-Q=w48-h48-c-k-nd",
-  ":vvv:":
+  ":_vvv:":
     "https://yt3.ggpht.com/5HGBdV9KRte0hoUuYmzW3jyLC_0-RI-YSdoP21R1Ty8ddjqIJiHkw7uoFIVxS8agdd9KgRpdcLE=w48-h48-c-k-nd",
-  ":cry:":
+  ":_cry:":
     "https://yt3.ggpht.com/eggHyVNj_Od2jz9qfE710DYVvXYn_g7FfzXlFDoNbkTE38eX-WS2NWKsWOfeUdvfoBm0M5tNjQ=w48-h48-c-k-nd",
-  ":myabe:":
+  ":_myabe:":
     "https://yt3.ggpht.com/tNX7XWNZzTVZ8C23bLNSGnGDAwvCalUh4yvoD3ZyDsG37Am6NKXm2y9d4cxSgJ2T7gXui-JxqQ=w48-h48-c-k-nd",
-  ":black:":
+  ":_black:":
     "https://yt3.ggpht.com/ansyF2CDT2I3Z_384InbHXnvvaa9068-Z27uSsS2_asUA-JSdaYmOEP3usMcijhPzYAJ3uJMFMQ=w48-h48-c-k-nd",
-  ":rightstick:":
+  ":_rightstick:":
     "https://yt3.ggpht.com/bTnpo62cRSzNQtYFe59yVh3cWMf2hCmY6LfsM3hU2ziMQcAz-mbdVYWry8wqT_6v3WXqvk1P=w48-h48-c-k-nd",
-  ":pandastick:":
+  ":_pandastick:":
     "https://yt3.ggpht.com/cmjcjSkJ0Im-rpI9hQF_M08lZU1byoaqEOHfx7Gz40TyZmw6lMpc7iqMj9fx1GGjel6Le1UsTA=w48-h48-c-k-nd",
-  ":lightstick:":
+  ":_lightstick:":
     "https://yt3.ggpht.com/hkrMgWG5e7hhCm45WcWCEhILd5xVw_Nk4leYenTvsOD_e29Oo4OvPYv5GYALaBZx1puTEaA6=w48-h48-c-k-nd",
-  ":laughdymya:":
+  ":_laughdymya:":
     "https://yt3.ggpht.com/u-ZZV6H5cjlQQDK9iaYqqUBg5Os9VjJeo7qfXrYLIpNhERuWCPGeLJiW6mfUFYxUBpQVOcL8JtE=w48-h48-c-k-nd",
-  ":byepanda:":
+  ":_byepanda:":
     "https://yt3.ggpht.com/mGN_RjTm3W6hFO1yfcDnaieq1F1fETMALpRS4SbIdcpPKcOnDxuVp1abSmJXxyA42m8k0dSkiZo=w48-h48-c-k-nd",
-  ":angryp:":
+  ":_angryp:":
     "https://yt3.ggpht.com/uaXUGMLGpJ_pygU5u2U8UGWiNESeS7nnbbOf51xD5w-h0F4up1CTyYjhW_LRfm9Tmsb4AsI2Bw=w48-h48-c-k-nd",
-  ":變態panda:":
+  ":_變態panda:":
     "https://yt3.ggpht.com/vXSRSHkx-PsXkUMKE3k9OZak9qDsuJFcuGztpUBvkw_Tcuy7XejRTui-fu-8iA4p7H9sNFdm=w48-h48-c-k-nd",
-  ":Blushing:":
+  ":_Blushing:":
     "https://yt3.ggpht.com/1YCYhqQIpja0PrPQqh1usDQbrjetmBtAHF8TNZRW3HvIFO8izU13Bnnm3qjroK7-ysoq0VoryiU=w48-h48-c-k-nd",
-  ":Confident:":
+  ":_Confident:":
     "https://yt3.ggpht.com/T1llRbstBnnAi4M5pUdqXyb8ctSm_wt-Vt7Pv0InFYwCLs427P3vSMtdaUqPxZsXifGQ_i345g=w48-h48-c-k-nd",
-  ":Confused:":
+  ":_Confused:":
     "https://yt3.ggpht.com/hrKPfGlWX8Kligs3w34Sah2suP2fk-Fg0-4mPY8jRifqEy4ta-loio4KpIhbrHWBOmnSdu7V=w48-h48-c-k-nd",
-  ":happypanda:":
+  ":_happypanda:":
     "https://yt3.ggpht.com/ngrzalcopJ8-eof2u_0sgh07EISOpL31Iky8nJvDtTBfq_K6khrpg5Gr7SR7TANJHN4PpRNC2g=w48-h48-c-k-nd",
-  ":happymya:":
+  ":_happymya:":
     "https://yt3.ggpht.com/eNQ9BfG7PhMW89fNr4tKzusMlxAj1DQgioau9hyqznVSMgwMeczRrWnLLIEU9_xdO9XWKGzJ=w48-h48-c-k-nd",
-  ":happy大院友:":
+  ":_happy大院友:":
     "https://yt3.ggpht.com/G9pJisGWJj53OHB7ut4O2Iz8top1qkrWQwgzvcSDFJHGm1hHHO8Soyhqc0ldvqviLe8IMI9RlA=w48-h48-c-k-nd",
-  ":leftstick:":
+  ":_leftstick:":
     "https://yt3.ggpht.com/RdRhaAsPSrTzKxINiOtSceNygSn2vL5FS_Q0IgtIsbmYnfiUwErcTujA4_Wmqk2OG448SZEX2A=w48-h48-c-k-nd",
-  ":Pandacall:":
+  ":_Pandacall:":
     "https://yt3.ggpht.com/rOs8GnNSRuEKXDbcaZPGMGCqJWkZEYF_wBTOiAvdMYEVhOE101yQL_WdmSxKMR_Yly8u4aknqg=w48-h48-c-k-nd",
-  ":ahe:":
+  ":_ahe:":
     "https://yt3.ggpht.com/0gEuy64r7oq7yfnCQdI5FbuXKKBlnVV5m3aGDgIPbD2wii_vGpeMmmDf4fwVIbR5n3bC9Gw8Mro=w48-h48-c-k-nd",
-  ":mya5:":
+  ":_mya5:":
     "https://yt3.ggpht.com/1cBRxqwyLgU3N-joYsjTfN_gNXPhAwx6f688-bIq2eoo7AYj44TvQhnnX6-GmCKLTfiX6DZ6yQ=w48-h48-c-k-nd",
-  ":angryknife:":
+  ":_angryknife:":
     "https://yt3.ggpht.com/lD6VcsNIZeFDy1rV2jkfqX0lepBQs7xhRUd_xdIMJC2em1W84lS3NYEiOO-ZInPaFEeHp31REA=w48-h48-c-k-nd",
-  ":coolmya:":
+  ":_coolmya:":
     "https://yt3.ggpht.com/YrSdaCOYXN2xn6r5XI87xphELM5ymlBN7sVRIpKaDhEFq93zHbeJseRowzg9GPHa84ERMFsi5A=w48-h48-c-k-nd",
-  ":congratmya:":
+  ":_congratmya:":
     "https://yt3.ggpht.com/7ooAkpN0bgUxUL9dUy6GCxqKHYHGiFzaqPD74qT0K-g6lr7c3uk3SLGTAq5_qDctkdF0ktnC8Q=w48-h48-c-k-nd",
-  ":fightmya:":
+  ":_fightmya:":
     "https://yt3.ggpht.com/SDelLN42H6jaqOj6Y_KObqYVrJa_il-pVfHLh1QBtZ7mSL0jpyI-KL22O8eMElzxzs5Z7ucxk-Q=w48-h48-c-k-nd",
-  ":noisymya:":
+  ":_noisymya:":
     "https://yt3.ggpht.com/i5NKKpNMmLnQW0eUcsphhL60iX7QJanXDBJLwXm1Q3UlzxIyvyA9HC8KnDaPegT5m36nfJQN=w48-h48-c-k-nd",
-  ":GGmya:":
+  ":_GGmya:":
     "https://yt3.ggpht.com/pywx8kgQt7keXXcqv9bZJzn0EURA98OitFfaIND1jb7iuugI7xKShKXnq2coewXRmjBRVbNfv-k=w48-h48-c-k-nd",
-  ":peanutsmya:":
+  ":_peanutsmya:":
     "https://yt3.ggpht.com/AtuBiLfC2Cn5OaF1LY9vCrh0fwStjtT7o9zBCWuhhczeKOcfyQiW_ZbkrqLSh13Tu-SNVRO-=w48-h48-c-k-nd",
-  ":scaredmya:":
+  ":_scaredmya:":
     "https://yt3.ggpht.com/7VfhpG1AAIew1WDCqavir16ZOyAanHDOTQr7ksSSJNB7di0DhdMlGHu5GoTqAT5nLjgpslVtlTs=w48-h48-c-k-nd",
-  ":lightmya:":
+  ":_lightmya:":
     "https://yt3.ggpht.com/D6EdGYkyMykrSJIrNL_ppUv8FwTb3kP9syanoxQlGoE-QkrWTTiPwpMM-rhB4F9Am9if9fxEm7k=w48-h48-c-k-nd",
 };
 
@@ -227,7 +227,7 @@ export const youtubeEmojiMap = {
 export const getEmojiByKey = (key: string) => {
   // FIXME: just work around here
   const unionEmojiMap = { ...youtubeEmojiMap, ...myaSponsorEmoji };
-  return key in youtubeEmojiMap
-    ? unionEmojiMap[key as keyof typeof youtubeEmojiMap]
+  return key in unionEmojiMap
+    ? unionEmojiMap[key as keyof typeof unionEmojiMap]
     : undefined;
 };

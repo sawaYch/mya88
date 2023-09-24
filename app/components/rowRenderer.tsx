@@ -66,6 +66,8 @@ const MessageRenderer = ({ rawMessage }: MessageRendererProps) => {
       if (emojiUrl) {
         return (
           <Image
+            width={24}
+            height={24}
             key={`${emoText}${idx}`}
             src={emojiUrl}
             alt={emoText}
