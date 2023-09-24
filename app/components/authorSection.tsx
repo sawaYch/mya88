@@ -15,7 +15,7 @@ export const AuthorSection = () => {
       </div>
       <a
         className="flex place-items-center p-2"
-        href="https://github.com/sawaYch"
+        href="https://github.com/sawaYch/mya88"
         target="_blank"
         rel="noopener noreferrer"
       >
