@@ -442,7 +442,7 @@ export default function Home() {
                       Records: {numOfRecord}
                     </div>
                   </div>
-                  <div className="flex-1 shadow-[0_10px_10px_1px_rgba(236,72,153,0.5)]">
+                  <div className="flex-1">
                     <AutoSizer>
                       {({ width, height }) => (
                         <List

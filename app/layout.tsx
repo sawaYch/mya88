@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Mya88🐼",
-  description: "GoodBye! 君の運命のヒトは僕じゃない~",
+  description: "Youtube live stream chat message viewer powered by Next & official data APIv3",
   applicationName: "Mya88",
   authors: [{ name: "No.159 Sawa", url: "https://sawaych.github.io/" }],
   generator: "Next.js",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   referrer: "origin",
   creator: "No.159 Sawa",
   publisher: "Vercel",
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fe9ba1" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#da2777" }],
   colorScheme: "dark",
   viewport: {
     width: "device-width",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://mya88.vercel.app/",
     title: "Mya88🐼",
-    description: "GoodBye! 君の運命のヒトは僕じゃない~",
+    description: "Youtube live stream chat message viewer powered by Next & official data APIv3",
     siteName: "Mya88",
     images: [
       {

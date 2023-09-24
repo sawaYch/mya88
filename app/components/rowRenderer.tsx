@@ -1,7 +1,7 @@
 import { MessageData } from "@/types";
 import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
-import { Key, PropsWithChildren, ReactNode, useCallback, useMemo } from "react";
+import { Key, PropsWithChildren, useCallback, useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import { Avatar, Badge, Checkbox } from "@nextui-org/react";
 import dayjs from "dayjs";
