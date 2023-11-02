@@ -4,12 +4,12 @@ import { tokenMapper } from "../utils";
 
 export const fetchLiveStreamDetails = async (
   currentPassphrase: string,
-  vid: string
+  vid: string,
 ) => {
   const apiToken = tokenMapper(currentPassphrase);
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${vid}&key=${apiToken}`,
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
   const data = await res.json();

@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect";
 import { Avatar, Badge, Checkbox } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { Image } from "@nextui-org/react";
-import { getEmojiByKey } from "../utils";
+import { getEmojiKeys, getEmojiByKey } from "../utils";
 
 interface RowRendererProps extends ListRowProps {
   list: MessageData[];
@@ -60,7 +60,9 @@ interface MessageRendererProps {
 
 const MessageRenderer = ({ rawMessage }: MessageRendererProps) => {
   const messageWithEmoji = useMemo(() => {
-    return rawMessage.split(/(:.*?:)/g).map((emoText, idx) => {
+    const emojiKeys = getEmojiKeys().map((k) => `(${k})`);
+    const pattern = new RegExp(emojiKeys.join("|"), "g");
+    return rawMessage.split(pattern).map((emoText, idx) => {
       if (!emoText) return null;
       const emojiUrl = getEmojiByKey(emoText);
       if (emojiUrl) {
