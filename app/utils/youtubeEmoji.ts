@@ -224,6 +224,11 @@ export const youtubeEmojiMap = {
     "https://yt3.ggpht.com/gjC5x98J4BoVSEPfFJaoLtc4tSBGSEdIlfL2FV4iJG9uGNykDP9oJC_QxAuBTJy6dakPxVeC=w24-h24-c-k-nd",
 };
 
+export const getEmojiKeys = () => {
+  const unionEmojiMap = { ...youtubeEmojiMap, ...myaSponsorEmoji };
+  return Object.keys(unionEmojiMap);
+};
+
 export const getEmojiByKey = (key: string) => {
   // FIXME: just work around here
   const unionEmojiMap = { ...youtubeEmojiMap, ...myaSponsorEmoji };
