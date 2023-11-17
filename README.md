@@ -4,7 +4,7 @@
 
 ## Problem Statement
 
-[Mya](https://www.youtube.com/@mya.) regularly say 'bye bye' to the audience and read each audience's name one by one before live stream end. Usually, the chatroom contains some 'bye bye' message that mixed with other unrelated message, which cause Mya difficult to see and differentiate the messages from distinct user. Can you help Mya write a program to solve this issue?
+[Mya](https://www.youtube.com/@mya_desu) regularly say 'bye bye' to the audience and read each audience's name one by one before live stream end. Usually, the chatroom contains some 'bye bye' message that mixed with other unrelated message, which cause Mya difficult to see and differentiate the messages from distinct user. Can you help Mya write a program to solve this issue?
 
 ## Usage
 
@@ -33,6 +33,20 @@ Here is the testing statistic:
 
 ## Development
 
+### Setup env var
+create `.env.local` in project root directory, fill in your youtube API token and mya88 app passphrase.
+```
+YT_DATA_API_TOKEN=
+YT_DATA_API_TOKEN_DEV=
+YT_DATA_API_TOKEN_BAK=
+PASSPHRASE=
+PASSPHRASE_DEV=
+PASSPHRASE_BAK=
+```
+
+
+### Start development server
+
 ```bash
 npm run dev
 # or
@@ -41,9 +55,12 @@ yarn dev
 pnpm dev
 ```
 
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Deploy on Vercel
+
+🚨 Remember to add env var above to Vercel.
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 

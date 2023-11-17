@@ -30,18 +30,18 @@ export const UserRoleBadge = ({
   const content = isChatModerator
     ? "🔧"
     : isChatOwner
-    ? "👑"
-    : isChatSponsor
-    ? "🚀"
-    : undefined;
+      ? "👑"
+      : isChatSponsor
+        ? "🚀"
+        : undefined;
 
   const color = isChatModerator
     ? "primary"
     : isChatOwner
-    ? "danger"
-    : isChatSponsor
-    ? "success"
-    : undefined;
+      ? "danger"
+      : isChatSponsor
+        ? "success"
+        : undefined;
 
   if (isChatModerator || isChatSponsor || isChatOwner) {
     return (
@@ -111,24 +111,24 @@ export const RowRenderer = ({
     user.type === "membershipGiftingEvent"
       ? "🎁"
       : user.type === "superChatEvent"
-      ? "💬"
-      : user.type === "memberMilestoneChatEvent"
-      ? "🏆"
-      : user.type === "giftMembershipReceivedEvent"
-      ? "📦"
-      : user.type === "newSponsorEvent"
-      ? "🎉"
-      : undefined;
+        ? "💬"
+        : user.type === "memberMilestoneChatEvent"
+          ? "🏆"
+          : user.type === "giftMembershipReceivedEvent"
+            ? "📦"
+            : user.type === "newSponsorEvent"
+              ? "🎉"
+              : undefined;
   const color =
     user.type === "membershipGiftingEvent" || user.type === "newSponsorEvent"
       ? "primary"
       : user.type === "superChatEvent"
-      ? "danger"
-      : user.type === "memberMilestoneChatEvent"
-      ? "success"
-      : user.type === "giftMembershipReceivedEvent"
-      ? "default"
-      : undefined;
+        ? "danger"
+        : user.type === "memberMilestoneChatEvent"
+          ? "success"
+          : user.type === "giftMembershipReceivedEvent"
+            ? "default"
+            : undefined;
 
   const isSelected = useMemo(() => {
     return checkedList.has(user.key);

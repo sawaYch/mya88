@@ -99,8 +99,8 @@ export default function Home() {
           return dayjs(b.time).isBefore(dayjs(a.time))
             ? 1
             : dayjs(b.time).isSame(dayjs(a.time))
-            ? 0
-            : -1;
+              ? 0
+              : -1;
         }),
       );
 
@@ -253,8 +253,8 @@ export default function Home() {
         return dayjs(b.time).isBefore(dayjs(a.time))
           ? 1
           : dayjs(b.time).isSame(dayjs(a.time))
-          ? 0
-          : -1;
+            ? 0
+            : -1;
       });
       setFilterData(newData);
     },
