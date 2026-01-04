@@ -356,7 +356,7 @@ export default function Home() {
                     aria-label="go"
                     color={isReady ? "danger" : "secondary"}
                     className="text-white h-14 w-14 rounded-full mb-4"
-                    onClick={handleUrlChange}
+                    onPress={handleUrlChange}
                   >
                     {isLoading ? (
                       <Spinner color="default" />
@@ -425,7 +425,7 @@ export default function Home() {
                               isIconOnly
                               color="secondary"
                               aria-label="show-user-list"
-                              onClick={onAudienceListOpen}
+                              onPress={onAudienceListOpen}
                             >
                               <IoPeopleCircleSharp size={36} />
                             </Button>
