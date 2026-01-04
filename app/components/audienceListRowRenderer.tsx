@@ -1,7 +1,7 @@
 import { DistinctUserList, MessageData } from "@/types";
 import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
-import { Avatar, Checkbox } from "@nextui-org/react";
+import { Avatar, Checkbox } from "@heroui/react";
 import { PropsWithChildren, ReactNode, useCallback } from "react";
 import { UserRoleBadge } from ".";
 

@@ -2,14 +2,13 @@
 
 const nextConfig = {
   images: {
-    domains: ["i.ytimg.com"],
-  },
-  experimental: {
-    serverActions: true,
-    serverComponentsExternalPackages: [
-      "puppeteer-extra",
-      "puppeteer-extra-plugin-stealth",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
     ],
+    qualities: [100, 75],
   },
 };
 

@@ -1,10 +1,18 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#da2777" }],
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   title: "Mya88🐼",
@@ -17,13 +25,6 @@ export const metadata: Metadata = {
   referrer: "origin",
   creator: "No.159 Sawa",
   publisher: "Vercel",
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#da2777" }],
-  colorScheme: "dark",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   robots: "index, follow",
   openGraph: {
     type: "website",

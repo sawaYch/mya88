@@ -1,5 +1,3 @@
-"use server";
-
 export const tokenMapper = (currentPassphrase: string) => {
   const devPassphrase = process.env.PASSPHRASE_DEV!;
   const bakPassphrase = process.env.PASSPHRASE_BAK!;

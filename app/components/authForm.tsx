@@ -1,4 +1,4 @@
-import { Card, Input, Image, Button, Spinner } from "@nextui-org/react";
+import { Card, Input, Image, Button, Spinner } from "@heroui/react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { EyeFilledIcon, EyeSlashFilledIcon } from ".";
@@ -37,6 +37,10 @@ export const AuthForm = ({ onSubmit }: AuthFormProps) => {
               value={passphrase}
               onValueChange={setPassphrase}
               radius="full"
+              classNames={{
+                inputWrapper: "border-none focus-within:border-none focus-within:ring-0 shadow-none",
+                input: "focus:outline-none",
+              }}
               endContent={
                 <button
                   className="outline-none"
@@ -57,7 +61,7 @@ export const AuthForm = ({ onSubmit }: AuthFormProps) => {
               aria-label="passphrase"
               radius="full"
               className="bg-pink-500/80"
-              onClick={async () => {
+              onPress={async () => {
                 setIsLoading(true);
                 await onSubmit(passphrase);
                 setIsLoading(false);

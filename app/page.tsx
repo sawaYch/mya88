@@ -9,7 +9,7 @@ import {
   Accordion,
   AccordionItem,
   Tooltip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   BreakPointHooks,
   breakpointsTailwind,
@@ -340,7 +340,11 @@ export default function Home() {
                     disabled={isReady}
                     autoComplete="off"
                     color={isReady ? "success" : "default"}
-                    className={"text-md"}
+                    className="text-md"
+                    classNames={{
+                      inputWrapper: "border-none focus-within:border-none focus-within:ring-0 shadow-none",
+                      input: "focus:outline-none",
+                    }}
                   />
                   {liveUrlError && (
                     <div className="text-danger text-xs">{`⚠️${liveUrlError}`}</div>

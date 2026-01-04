@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import pack from "../../package.json";
 
 export const AuthorSection = () => {

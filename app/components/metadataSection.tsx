@@ -1,4 +1,4 @@
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 
 interface MetadataSectionProps {
   title?: string;
@@ -19,7 +19,8 @@ export const MetadataSection = ({ title, thumbnail }: MetadataSectionProps) => {
           }
           alt="thumbnail"
           width={64}
-          height={24}
+          height={36}
+          className="aspect-video object-cover"
         />
       </div>
     </div>

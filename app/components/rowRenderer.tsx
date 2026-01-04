@@ -3,9 +3,9 @@ import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
 import { Key, PropsWithChildren, useCallback, useMemo } from "react";
 import { isMobile } from "react-device-detect";
-import { Avatar, Badge, Checkbox } from "@nextui-org/react";
+import { Avatar, Badge, Checkbox } from "@heroui/react";
 import dayjs from "dayjs";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { getEmojiKeys, getEmojiByKey } from "../utils";
 
 interface RowRendererProps extends ListRowProps {

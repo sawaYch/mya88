@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { ImageResponse } from "next/server";
-// App router includes @vercel/og.
-// No need to install it.
+import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 

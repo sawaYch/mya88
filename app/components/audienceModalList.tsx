@@ -9,7 +9,7 @@ import {
   ModalHeader,
   Switch,
   Tooltip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { AutoSizer, List } from "react-virtualized";
 import { useCallback, useMemo } from "react";
 import { uniqBy } from "lodash";
