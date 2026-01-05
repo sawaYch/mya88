@@ -242,7 +242,7 @@ export default function RootLayout({
         <div className="fixed top-0 left-0 w-screen h-screen overflow-hidden">
           <Image
             className="opacity-20 object-cover object-center pointer-events-none select-none"
-            src="/bg.jpg"
+            src="/bg-mya.png"
             alt="bg"
             fill
             quality="100"
