@@ -25,6 +25,7 @@ import { AutoSizer, List } from "react-virtualized";
 import { isIOS, isMobile, isTablet } from "react-device-detect";
 import { IoPeopleCircleSharp } from "react-icons/io5";
 import "react-virtualized/styles.css";
+import confetti from "canvas-confetti";
 import {
   AuthorSection,
   MetadataSection,
@@ -99,9 +100,9 @@ export default function Home() {
           return dayjs(b.time).isBefore(dayjs(a.time))
             ? 1
             : dayjs(b.time).isSame(dayjs(a.time))
-              ? 0
-              : -1;
-        }),
+            ? 0
+            : -1;
+        })
       );
 
       // auto tick marked user
@@ -119,7 +120,7 @@ export default function Home() {
         await intervalLiveChatMessage(chatId, nextPageToken);
       }, pollingMs);
     },
-    [extractMessage, fetchLiveChatMessage],
+    [extractMessage, fetchLiveChatMessage]
   );
 
   useEffect(() => {
@@ -193,17 +194,17 @@ export default function Home() {
       }
 
       const selectedKeyUsername = YtMessageData.filter((it) =>
-        Array.from(newSet).includes(it.key),
+        Array.from(newSet).includes(it.key)
       ).map((it) => it.name);
 
       // keys should be mark as read
       const keysShouldBeSelected = YtMessageData.filter((it) =>
-        selectedKeyUsername.includes(it.name),
+        selectedKeyUsername.includes(it.name)
       ).map((it) => it.key);
       setCheckedUsers(new Set(selectedKeyUsername));
       setReadByeBye(new Set(keysShouldBeSelected));
     },
-    [YtMessageData, readByeBye],
+    [YtMessageData, readByeBye]
   );
 
   const handleStopProcess = useCallback(() => {
@@ -225,6 +226,68 @@ export default function Home() {
           color: "#fff",
         },
       });
+      const birthdayStart = dayjs("2026-01-04");
+      const birthdayEnd = birthdayStart.add(7, "day");
+      const today = dayjs();
+      const isMyaBirthday =
+        (today.isSame(birthdayStart, "day") ||
+          today.isAfter(birthdayStart, "day")) &&
+        (today.isSame(birthdayEnd, "day") ||
+          today.isBefore(birthdayEnd, "day"));
+      if (isMyaBirthday) {
+        toast("Happy Birthday to Mya!\n米亞生日快樂！◝(ᵔᗜᵔ)◜", {
+          icon: "🎂",
+          style: {
+            borderRadius: "10px",
+            background: "#FF8DA1",
+            color: "#fff",
+          },
+          duration: 5000,
+        });
+        // Trigger confetti with panda emoji - Side Cannons style from bottom right
+        const scalar = 2;
+        const panda = confetti.shapeFromText({ text: "🐼", scalar });
+        const cannonDefaults = {
+          origin: {
+            x: 1, // bottom right corner
+            y: 1,
+          },
+          ticks: 100,
+          gravity: 0.5,
+          decay: 0.94,
+          startVelocity: 30,
+          scalar,
+        };
+        const shootCannons = () => {
+          // Left cannon (shooting upward-left)
+          confetti({
+            ...cannonDefaults,
+            angle: 135,
+            spread: 45,
+            particleCount: 10,
+            shapes: ["circle"],
+          });
+          // Right cannon (shooting upward-right)
+          confetti({
+            ...cannonDefaults,
+            angle: 100,
+            spread: 200,
+            particleCount: 10,
+            shapes: [panda],
+          });
+          // Center burst with circles
+          confetti({
+            ...cannonDefaults,
+            angle: 90,
+            spread: 30,
+            particleCount: 20,
+            scalar: scalar / 2,
+            shapes: ["circle"],
+          });
+        };
+        setTimeout(shootCannons, 100);
+        setTimeout(shootCannons, 500);
+      }
       setIsAuth(true);
       setCurrentPassphrase(passphrase);
     } else {
@@ -253,12 +316,12 @@ export default function Home() {
         return dayjs(b.time).isBefore(dayjs(a.time))
           ? 1
           : dayjs(b.time).isSame(dayjs(a.time))
-            ? 0
-            : -1;
+          ? 0
+          : -1;
       });
       setFilterData(newData);
     },
-    [YtMessageData],
+    [YtMessageData]
   );
 
   const tableData = useMemo(() => {
@@ -283,7 +346,7 @@ export default function Home() {
       if (updateCheckedUsers.length > checkedUsers.size) {
         const checkedUsersArray = Array.from(checkedUsers);
         const extraElement = updateCheckedUsers.find(
-          (element) => !checkedUsersArray.includes(element),
+          (element) => !checkedUsersArray.includes(element)
         );
         const checkedUserKey = tableData.find((it) => it.name === extraElement);
         if (checkedUserKey == null) return;
@@ -291,7 +354,7 @@ export default function Home() {
       }
       setCheckedUsers(new Set(updateCheckedUsers));
     },
-    [checkedUsers, handleRowCheckChanged, tableData],
+    [checkedUsers, handleRowCheckChanged, tableData]
   );
 
   const { useSmaller } = BreakPointHooks(breakpointsTailwind);
@@ -303,7 +366,7 @@ export default function Home() {
         "fixed flex flex-col h-screen items-center px-2 sm:px-10 font-mono w-screen overflow-hidden",
         {
           "max-h-[85vh]": isMobile,
-        },
+        }
       )}
     >
       <AuthorSection />
@@ -342,7 +405,8 @@ export default function Home() {
                     color={isReady ? "success" : "default"}
                     className="text-md"
                     classNames={{
-                      inputWrapper: "border-none focus-within:border-none focus-within:ring-0 shadow-none",
+                      inputWrapper:
+                        "border-none focus-within:border-none focus-within:ring-0 shadow-none",
                       input: "focus:outline-none",
                     }}
                   />
@@ -354,8 +418,11 @@ export default function Home() {
                   <Button
                     isIconOnly
                     aria-label="go"
-                    color={isReady ? "danger" : "secondary"}
+                    color={isReady ? "danger" : "default"}
                     className="text-white h-14 w-14 rounded-full mb-4"
+                    style={
+                      !isReady ? { backgroundColor: "#ff79c6" } : undefined
+                    }
                     onPress={handleUrlChange}
                   >
                     {isLoading ? (
@@ -374,18 +441,10 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                   className={cn(
-                    "grow mb-10 justify-stretch items-stretch flex flex-col",
+                    "grow mb-10 justify-stretch items-stretch flex flex-col"
                   )}
                 >
-                  <Accordion
-                    showDivider={false}
-                    variant="splitted"
-                    isCompact
-                    className="mx-0 px-0"
-                    itemClasses={{
-                      content: "mb-2",
-                    }}
-                  >
+                  <Accordion className="mx-0 px-0">
                     <AccordionItem
                       key="1"
                       aria-label="metadata-accordion"
