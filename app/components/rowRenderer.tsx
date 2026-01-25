@@ -3,7 +3,7 @@ import { ListRowProps } from "react-virtualized";
 import cn from "classnames";
 import { Key, PropsWithChildren, useCallback, useMemo } from "react";
 import { isMobile } from "react-device-detect";
-import { Avatar, Badge, Checkbox } from "@heroui/react";
+import { Avatar, Badge, Checkbox, Chip } from "@heroui/react";
 import dayjs from "dayjs";
 import { Image } from "@heroui/react";
 import { getEmojiKeys, getEmojiByKey } from "../utils";
@@ -159,10 +159,10 @@ export const RowRenderer = ({
               isChatOwner={user.isChatOwner}
             >
               {user.type === "membershipGiftingEvent" ||
-              user.type === "superChatEvent" ||
-              user.type === "memberMilestoneChatEvent" ||
-              user.type === "giftMembershipReceivedEvent" ||
-              user.type === "newSponsorEvent" ? (
+                user.type === "superChatEvent" ||
+                user.type === "memberMilestoneChatEvent" ||
+                user.type === "giftMembershipReceivedEvent" ||
+                user.type === "newSponsorEvent" ? (
                 <Badge
                   content={content}
                   color={color}
@@ -187,14 +187,27 @@ export const RowRenderer = ({
             </UserRoleBadge>
           </div>
           <div className="flex flex-col pl-4 leading-tight">
-            <div
-              className={cn("flex", {
-                "text-success font-bold": user.isChatSponsor,
-                "text-primary font-bold": user.isChatModerator,
-                "text-danger font-bold": user.isChatOwner,
-              })}
-            >
-              {user.name}
+            <div className="flex flex-row gap-2 items-center">
+              <span
+                className={cn({
+                  "text-success font-bold": user.isChatSponsor,
+                  "text-primary font-bold": user.isChatModerator,
+                  "text-danger font-bold": user.isChatOwner,
+                })}
+              >
+                {user.name}
+              </span>
+              {user.legacyDisplayName ? (
+                <Chip
+                  classNames={{
+                    base: "bg-gradient-to-br from-red-400 to-pink-600 border-small border-white/50 !h-5",
+                    content: "text-white",
+                  }}
+                  variant="shadow"
+                >
+                  {user.legacyDisplayName}
+                </Chip>
+              ) : null}
             </div>
             <div className="text-xxs">
               {dayjs(user.time).format("DD/MMM/YYYY HH:mm:ss")}

@@ -13,9 +13,12 @@ export interface MessageData {
   type: MessageType;
   pic: string;
   time: string;
-  isChatOwner: boolean; // channel owner
-  isChatSponsor: boolean; // channel membership
-  isChatModerator: boolean; // channel mod
+  isChatOwner: boolean;
+  isChatSponsor: boolean;
+  isChatModerator: boolean;
+  channelId?: string;
+  userHandleName?: string;
+  legacyDisplayName?: string;
 }
 
 export interface LiveMetadata {

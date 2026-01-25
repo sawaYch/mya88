@@ -66,8 +66,14 @@ export default function Home() {
     string | undefined
   >();
 
-  const { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage } =
-    useLiveChat(currentPassphrase);
+  const {
+    fetchLiveChatMessage,
+    fetchLiveStreamingDetails,
+    extractMessage,
+    fetchChannelTitles,
+  } = useLiveChat(currentPassphrase);
+
+  const channelNameCacheRef = useRef<Record<string, string>>({});
 
   const intervalLiveChatMessage = useCallback(
     async (chatId: string, nextToken?: string) => {
@@ -84,26 +90,65 @@ export default function Home() {
 
       const pollingMs = d.pollingIntervalMillis + defaultBaseInterval;
       const nextPageToken = d.nextPageToken;
-      const newData: MessageData[] = d.items.map((it: any) => ({
-        key: it.id,
-        name: it.authorDetails.displayName,
-        pic: it.authorDetails.profileImageUrl,
-        message: extractMessage(it),
-        type: it.snippet.type,
-        time: it.snippet.publishedAt,
-        isChatOwner: it.authorDetails.isChatOwner,
-        isChatSponsor: it.authorDetails.isChatSponsor,
-        isChatModerator: it.authorDetails.isChatModerator,
-      }));
-      setYtMessageData((prev) =>
-        uniqBy([...prev, ...newData], (obj) => obj.key).sort((a, b) => {
-          return dayjs(b.time).isBefore(dayjs(a.time))
-            ? 1
-            : dayjs(b.time).isSame(dayjs(a.time))
-            ? 0
-            : -1;
-        })
-      );
+
+      const channelIdsFromItems: string[] = d.items
+        .map(
+          (it: any) =>
+            it.authorDetails?.channelId ?? it.snippet?.authorChannelId,
+        )
+        .filter((x: string | undefined): x is string => Boolean(x));
+      const uniqueNewChannelIds: string[] = Array.from(
+        new Set(channelIdsFromItems),
+      )
+        .filter((id) => !(id in channelNameCacheRef.current))
+        .slice(0, 50);
+      if (uniqueNewChannelIds.length > 0) {
+        const titles = await fetchChannelTitles(uniqueNewChannelIds);
+        Object.assign(channelNameCacheRef.current, titles);
+      }
+
+      const newData: MessageData[] = d.items.map((it: any) => {
+        const cid =
+          it.authorDetails?.channelId ?? it.snippet?.authorChannelId;
+        const userHandleName = it.authorDetails.displayName ?? "";
+        const legacyDisplayName = cid
+          ? channelNameCacheRef.current[cid]
+          : undefined;
+        return {
+          key: it.id,
+          channelId: cid,
+          userHandleName,
+          legacyDisplayName,
+          name: userHandleName,
+          pic: it.authorDetails.profileImageUrl,
+          message: extractMessage(it),
+          type: it.snippet.type,
+          time: it.snippet.publishedAt,
+          isChatOwner: it.authorDetails?.isChatOwner ?? false,
+          isChatSponsor: it.authorDetails?.isChatSponsor ?? false,
+          isChatModerator: it.authorDetails?.isChatModerator ?? false,
+        };
+      });
+
+      setYtMessageData((prev) => {
+        const updatedPrev = prev.map((m) => {
+          const ch = m.channelId;
+          const fromCache = ch ? channelNameCacheRef.current[ch] : undefined;
+          const newLegacy = fromCache ?? m.legacyDisplayName;
+          if (newLegacy !== m.legacyDisplayName) {
+            return { ...m, legacyDisplayName: newLegacy };
+          }
+          return m;
+        });
+        return uniqBy([...newData, ...updatedPrev], (obj) => obj.key).sort(
+          (a, b) =>
+            dayjs(b.time).isBefore(dayjs(a.time))
+              ? 1
+              : dayjs(b.time).isSame(dayjs(a.time))
+                ? 0
+                : -1,
+        );
+      });
 
       // auto tick marked user
       const newDataKeysShouldMark = newData
@@ -120,7 +165,7 @@ export default function Home() {
         await intervalLiveChatMessage(chatId, nextPageToken);
       }, pollingMs);
     },
-    [extractMessage, fetchLiveChatMessage]
+    [extractMessage, fetchChannelTitles, fetchLiveChatMessage]
   );
 
   useEffect(() => {
@@ -174,7 +219,7 @@ export default function Home() {
       setActiveChatMessageId(result.activeLiveChatId);
       setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
 
-      // all green, reset any error flag
+      channelNameCacheRef.current = {};
       setIsReady(true);
       setYtMessageData([]);
       setFilterData([]);
@@ -316,8 +361,8 @@ export default function Home() {
         return dayjs(b.time).isBefore(dayjs(a.time))
           ? 1
           : dayjs(b.time).isSame(dayjs(a.time))
-          ? 0
-          : -1;
+            ? 0
+            : -1;
       });
       setFilterData(newData);
     },

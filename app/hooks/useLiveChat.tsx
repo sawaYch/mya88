@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { fetchChannels } from "./fetchChannels";
 import { fetchLiveChat } from "./fetchLiveChat";
 import { fetchLiveStreamDetails } from "./fetchLiveStreamDetails";
 
@@ -102,5 +103,18 @@ export const useLiveChat = (currentPassphrase?: string) => {
     [],
   );
 
-  return { fetchLiveChatMessage, fetchLiveStreamingDetails, extractMessage };
+  const fetchChannelTitles = useCallback(
+    async (channelIds: string[]) => {
+      if (!currentPassphrase) return {};
+      return fetchChannels(currentPassphrase, channelIds);
+    },
+    [currentPassphrase],
+  );
+
+  return {
+    fetchLiveChatMessage,
+    fetchLiveStreamingDetails,
+    extractMessage,
+    fetchChannelTitles,
+  };
 };
