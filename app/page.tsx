@@ -34,9 +34,17 @@ import {
   RowRenderer,
 } from "./components";
 import { useLiveChat } from "./hooks";
-import { defaultBaseInterval, vidParser } from "./utils";
+import {
+  defaultBaseInterval,
+  getChannelEmojiMap,
+  getDefaultEmojiMap,
+  isMyaChannel,
+  vidParser,
+  type EmojiMap,
+} from "./utils";
 import type { MessageData, LiveMetadata } from "../types";
 import { AudienceModalList } from "./components/audienceModalList";
+import type { LiveChatEmojiSession } from "./hooks/fetchLiveChatEmojis";
 
 export default function Home() {
   const [urlInputValue, setUrlInputValue] = useState("");
@@ -71,9 +79,55 @@ export default function Home() {
     fetchLiveStreamingDetails,
     extractMessage,
     fetchChannelTitles,
+    fetchEmojiCatalog,
+    refreshEmojiCatalog,
   } = useLiveChat(currentPassphrase);
 
   const channelNameCacheRef = useRef<Record<string, string>>({});
+  const [emojiMap, setEmojiMap] = useState<EmojiMap>(() => getDefaultEmojiMap());
+  const emojiSessionRef = useRef<Omit<
+    LiveChatEmojiSession,
+    "emojis"
+  > | null>(null);
+  const useDynamicEmojisRef = useRef(false);
+  const emojiRefreshInFlightRef = useRef(false);
+  const activeVideoIdRef = useRef<string | undefined>();
+
+  const mergeChannelEmojis = useCallback((emojis: Record<string, string>) => {
+    if (Object.keys(emojis).length === 0) return;
+    setEmojiMap((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const [key, url] of Object.entries(emojis)) {
+        if (next[key] !== url) {
+          next[key] = url;
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, []);
+
+  const applyEmojiSession = useCallback(
+    (session: LiveChatEmojiSession) => {
+      emojiSessionRef.current = {
+        continuation: session.continuation,
+        apiKey: session.apiKey,
+        clientVersion: session.clientVersion,
+      };
+      mergeChannelEmojis(session.emojis);
+    },
+    [mergeChannelEmojis],
+  );
+
+  const rebootstrapEmojiCatalog = useCallback(async () => {
+    const videoId = activeVideoIdRef.current;
+    if (!videoId || !useDynamicEmojisRef.current) return false;
+    const catalog = await fetchEmojiCatalog(videoId);
+    if (!catalog.ok) return false;
+    applyEmojiSession(catalog.session);
+    return true;
+  }, [applyEmojiSession, fetchEmojiCatalog]);
 
   const intervalLiveChatMessage = useCallback(
     async (chatId: string, nextToken?: string) => {
@@ -90,6 +144,39 @@ export default function Home() {
 
       const pollingMs = d.pollingIntervalMillis + defaultBaseInterval;
       const nextPageToken = d.nextPageToken;
+
+      if (useDynamicEmojisRef.current && !emojiRefreshInFlightRef.current) {
+        emojiRefreshInFlightRef.current = true;
+        const session = emojiSessionRef.current;
+        const refreshPromise = session
+          ? refreshEmojiCatalog(session)
+          : Promise.resolve({
+              ok: false as const,
+              message: "No emoji session",
+            });
+
+        refreshPromise
+          .then(async (result) => {
+            if (!useDynamicEmojisRef.current) return;
+
+            if (result.ok) {
+              if (emojiSessionRef.current) {
+                emojiSessionRef.current = {
+                  ...emojiSessionRef.current,
+                  continuation: result.continuation,
+                };
+              }
+              mergeChannelEmojis(result.emojis);
+              return;
+            }
+
+            // Continuation likely expired — re-scrape live_chat for a fresh session.
+            await rebootstrapEmojiCatalog();
+          })
+          .finally(() => {
+            emojiRefreshInFlightRef.current = false;
+          });
+      }
 
       const channelIdsFromItems: string[] = d.items
         .map(
@@ -165,7 +252,14 @@ export default function Home() {
         await intervalLiveChatMessage(chatId, nextPageToken);
       }, pollingMs);
     },
-    [extractMessage, fetchChannelTitles, fetchLiveChatMessage]
+    [
+      extractMessage,
+      fetchChannelTitles,
+      fetchLiveChatMessage,
+      mergeChannelEmojis,
+      rebootstrapEmojiCatalog,
+      refreshEmojiCatalog,
+    ],
   );
 
   useEffect(() => {
@@ -220,6 +314,31 @@ export default function Home() {
       setLiveMetadata({ title: result.title, thumbnail: result.thumbnail });
 
       channelNameCacheRef.current = {};
+      emojiSessionRef.current = null;
+      emojiRefreshInFlightRef.current = false;
+      activeVideoIdRef.current = vid;
+
+      if (isMyaChannel(result.channelId)) {
+        useDynamicEmojisRef.current = false;
+        setEmojiMap(getDefaultEmojiMap());
+      } else {
+        useDynamicEmojisRef.current = true;
+        setEmojiMap(getChannelEmojiMap());
+        const catalog = await fetchEmojiCatalog(vid);
+        if (catalog.ok) {
+          applyEmojiSession(catalog.session);
+        } else {
+          toast(`Emoji catalog: ${catalog.message}`, {
+            icon: "⚠️",
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+        }
+      }
+
       setIsReady(true);
       setYtMessageData([]);
       setFilterData([]);
@@ -228,7 +347,14 @@ export default function Home() {
       setReadByeBye(new Set([]));
       setIsLoading(false);
     }
-  }, [fetchLiveStreamingDetails, isReady, onOpen, urlInputValue]);
+  }, [
+    applyEmojiSession,
+    fetchEmojiCatalog,
+    fetchLiveStreamingDetails,
+    isReady,
+    onOpen,
+    urlInputValue,
+  ]);
 
   const handleRowCheckChanged = useCallback(
     (key: string, checked: boolean) => {
@@ -254,6 +380,10 @@ export default function Home() {
 
   const handleStopProcess = useCallback(() => {
     setIsReady(false);
+    useDynamicEmojisRef.current = false;
+    emojiSessionRef.current = null;
+    activeVideoIdRef.current = undefined;
+    setEmojiMap(getDefaultEmojiMap());
     onClose();
   }, [onClose]);
 
@@ -569,6 +699,7 @@ export default function Home() {
                               list={tableData}
                               onRowCheckChanged={handleRowCheckChanged}
                               checkedList={readByeBye}
+                              emojiMap={emojiMap}
                             />
                           )}
                         />

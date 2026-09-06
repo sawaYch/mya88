@@ -6,13 +6,19 @@ import { isMobile } from "react-device-detect";
 import { Avatar, Badge, Checkbox, Chip } from "@heroui/react";
 import dayjs from "dayjs";
 import { Image } from "@heroui/react";
-import { getEmojiKeys, getEmojiByKey } from "../utils";
+import {
+  EmojiMap,
+  escapeRegExp,
+  getEmojiByKey,
+  getEmojiKeys,
+} from "../utils";
 
 interface RowRendererProps extends ListRowProps {
   list: MessageData[];
   onRowCheckChanged: (key: string, checked: boolean) => void;
   checkedList: Set<Key>;
   childKey: string;
+  emojiMap?: EmojiMap;
 }
 
 export interface userRoleBadgeProps {
@@ -56,15 +62,21 @@ export const UserRoleBadge = ({
 
 interface MessageRendererProps {
   rawMessage: string;
+  emojiMap?: EmojiMap;
 }
 
-const MessageRenderer = ({ rawMessage }: MessageRendererProps) => {
+const MessageRenderer = ({ rawMessage, emojiMap }: MessageRendererProps) => {
   const messageWithEmoji = useMemo(() => {
-    const emojiKeys = getEmojiKeys().map((k) => `(${k})`);
+    const emojiKeys = getEmojiKeys(emojiMap).map(
+      (k) => `(${escapeRegExp(k)})`,
+    );
+    if (emojiKeys.length === 0) {
+      return [<p key="raw">{rawMessage}</p>];
+    }
     const pattern = new RegExp(emojiKeys.join("|"), "g");
     return rawMessage.split(pattern).map((emoText, idx) => {
       if (!emoText) return null;
-      const emojiUrl = getEmojiByKey(emoText);
+      const emojiUrl = getEmojiByKey(emoText, emojiMap);
       if (emojiUrl) {
         return (
           <Image
@@ -79,7 +91,7 @@ const MessageRenderer = ({ rawMessage }: MessageRendererProps) => {
       }
       return <p key={`${emoText}${idx}`}>{emoText}</p>;
     });
-  }, [rawMessage]);
+  }, [emojiMap, rawMessage]);
 
   return <div className="flex flex-row items-center">{messageWithEmoji}</div>;
 };
@@ -91,6 +103,7 @@ export const RowRenderer = ({
   list,
   checkedList,
   onRowCheckChanged,
+  emojiMap,
 }: RowRendererProps) => {
   const user = list[index];
 
@@ -213,7 +226,7 @@ export const RowRenderer = ({
               {dayjs(user.time).format("DD/MMM/YYYY HH:mm:ss")}
             </div>
             <div className={cn("text-xs sm:text-md", { "text-xxs": isMobile })}>
-              <MessageRenderer rawMessage={user.message} />
+              <MessageRenderer rawMessage={user.message} emojiMap={emojiMap} />
             </div>
           </div>
         </div>

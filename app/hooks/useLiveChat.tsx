@@ -1,6 +1,11 @@
 import { useCallback } from "react";
 import { fetchChannels } from "./fetchChannels";
 import { fetchLiveChat } from "./fetchLiveChat";
+import {
+  fetchLiveChatEmojiCatalog,
+  refreshLiveChatEmojiCatalog,
+  type LiveChatEmojiSession,
+} from "./fetchLiveChatEmojis";
 import { fetchLiveStreamDetails } from "./fetchLiveStreamDetails";
 
 interface APIError {
@@ -111,10 +116,26 @@ export const useLiveChat = (currentPassphrase?: string) => {
     [currentPassphrase],
   );
 
+  const fetchEmojiCatalog = useCallback(async (videoId: string) => {
+    return fetchLiveChatEmojiCatalog(videoId);
+  }, []);
+
+  const refreshEmojiCatalog = useCallback(
+    async (session: Pick<
+      LiveChatEmojiSession,
+      "continuation" | "apiKey" | "clientVersion"
+    >) => {
+      return refreshLiveChatEmojiCatalog(session);
+    },
+    [],
+  );
+
   return {
     fetchLiveChatMessage,
     fetchLiveStreamingDetails,
     extractMessage,
     fetchChannelTitles,
+    fetchEmojiCatalog,
+    refreshEmojiCatalog,
   };
 };
