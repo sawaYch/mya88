@@ -302,15 +302,36 @@ export const youtubeEmojiMap = {
     "https://yt3.ggpht.com/gjC5x98J4BoVSEPfFJaoLtc4tSBGSEdIlfL2FV4iJG9uGNykDP9oJC_QxAuBTJy6dakPxVeC=w48-h48-c-k-nd",
 };
 
-export const getEmojiKeys = () => {
-  const unionEmojiMap = { ...youtubeEmojiMap, ...myaSponsorEmoji };
-  return Object.keys(unionEmojiMap);
+/** 米亞 Mya — keep hardcoded membership emoji map for this channel. */
+export const MYA_CHANNEL_ID = "UCVDrzfo7NnOvNx8dU-Ebitg";
+
+export type EmojiMap = Record<string, string>;
+
+export const isMyaChannel = (channelId?: string | null) =>
+  channelId === MYA_CHANNEL_ID;
+
+/** Default map used for Mya's channel (global YT + hard-coded membership). */
+export const getDefaultEmojiMap = (): EmojiMap => ({
+  ...youtubeEmojiMap,
+  ...myaSponsorEmoji,
+});
+
+/**
+ * Map for other channels: global YT emojis + live_chat-harvested catalog.
+ * Does not include Mya membership shortcuts.
+ */
+export const getChannelEmojiMap = (channelEmojis?: EmojiMap): EmojiMap => ({
+  ...youtubeEmojiMap,
+  ...(channelEmojis ?? {}),
+});
+
+export const getEmojiKeys = (emojiMap?: EmojiMap) =>
+  Object.keys(emojiMap ?? getDefaultEmojiMap());
+
+export const getEmojiByKey = (key: string, emojiMap?: EmojiMap) => {
+  const map = emojiMap ?? getDefaultEmojiMap();
+  return map[key];
 };
 
-export const getEmojiByKey = (key: string) => {
-  // FIXME: just work around here
-  const unionEmojiMap = { ...youtubeEmojiMap, ...myaSponsorEmoji };
-  return key in unionEmojiMap
-    ? unionEmojiMap[key as keyof typeof unionEmojiMap]
-    : undefined;
-};
+export const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
